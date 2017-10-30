@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<models>
+	<model>
+		<bean name="IqiyiPage">
+			<field name="name" >
+				<extract expression="xpath('//*[@itemprop='name']/text()')" />
+			</field>
+			<field name="names" >
+				<extract expression="xpath('//*[@itemprop='name']/text()')" notnull="false"/>
+			</field>
+			
+			<field name="iqiyisub" type="object" leafid="iqiyi1">
+				<extract expression="*" />
+			</field>
+		</bean>
+		<tagurl>
+			<expression>http://www.iqiyi.com/lib/s_\d+.html</expression>
+		</tagurl>
+	</model>
+	<model>
+		<bean name="IqiyiPage1">
+			<field name="name" >
+				<extract expression="xpath('//*[@itemprop='name']/text()')" />
+			</field>
+			<field name="names" >
+				<extract expression="xpath('//*[@itemprop='name1']/text()')" notnull="false"/>
+			</field>
+			
+			<field name="iqiyisub" type="object" leafid="iqiyi1">
+				<extract expression="*" />
+			</field>
+		</bean>
+		<tagurl>
+			<expression>http://www.iqiyi.com/lib/s_\d+.html</expression>
+		</tagurl>
+	</model>
+	<model>
+		<bean name="iqiyi1" leaf="true">
+			<field name="name" >
+				<extract expression="//*[@itemprop='name']/text()"/>
+			</field>
+		</bean>
+	</model>
+</models>

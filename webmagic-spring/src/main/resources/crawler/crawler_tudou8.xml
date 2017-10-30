@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+	<!-- Site -->
+	<bean id="site" class="us.codecraft.webmagic.Site">
+		<property name="domain" value="${site.domain}" />
+		<property name="userAgent" value="${site.userAgent}" />
+		<property name="charset" value="${site.charset}" />
+		<property name="sleepTime" value="${site.sleepTime}" />
+		<property name="retryTimes" value="${site.retryTimes}" />
+		<property name="cycleRetryTimes" value="${site.cycleRetryTimes}" />
+		<property name="retrySleepTime" value="${site.retrySleepTime}" />
+		<property name="timeOut" value="${site.timeOut}" />
+		<property name="useGzip" value="${site.useGzip}" />
+		<property name="disableCookieManagement" value="${site.disableCookieManagement}" />
+	</bean>
+	<!-- Pipeline -->
+	<bean id="pipeline" class="org.webmagic.spring.GroovyPageModelPipeline">
+	   <constructor-arg name="source">
+	       <value>
+	           println(obj);
+	       </value>
+	   </constructor-arg>
+	</bean>
+	<!-- Scheduler -->
+	<bean id="redisScheduler" class="us.codecraft.webmagic.scheduler.RedisScheduler">
+		<constructor-arg name="pool" ref="jedisPool" />
+	</bean>
+	<!-- Spider -->
+	<bean id="spider1" class="us.codecraft.webmagic.model.OOSpider"
+		destroy-method="close">
+		<constructor-arg name="site" ref="site" />
+		<constructor-arg name="pageModelPipeline" ref="pipeline" />
+		<constructor-arg name="paths">
+			<value>${model.paths}</value>
+		</constructor-arg>
+		<property name="scheduler" ref="redisScheduler" /> 
+	</bean>
+	<!-- task -->
+	<bean id="spiderTaskaaaa" class="org.webmagic.spring.SpiderTask">
+		<constructor-arg name="spider" ref="spider1" />
+		<constructor-arg name="urls">
+			<value>${spider.urls}</value>
+		</constructor-arg>
+		<constructor-arg name="threadNum" value="${thread.number}" />
+	</bean>
+</beans>

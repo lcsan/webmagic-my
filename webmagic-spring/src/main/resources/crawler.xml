@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+	<bean id="propertyUtils"
+		class="org.webmagic.spring.PropertyUtils">
+		<property name="locations">
+			<list>
+			 <value>classpath:**/*.properties</value>
+			</list>
+		</property>
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
+	</bean>
+	<bean id="beanUtils" class="org.webmagic.spring.BeanUtils"></bean>
+	
+	<!-- redis -->
+    <import resource="redis/redis_source.xml"/>
+    <!-- db -->
+    <!-- <import resource="db/data_source.xml"/> -->
+	<!-- spider -->
+	<import resource="crawler/crawler_tudou8.xml"/>
+	
+    <!-- 
+    ref是工作类
+    method是工作类中要执行的方法 
+    initial-delay是任务第一次被调用前的延时，单位毫秒
+    fixed-delay是上一个调用完成后再次调用的延时 
+    fixed-rate是上一个调用开始后再次调用的延时（不用等待上一次调用完成）
+    cron是表达式，表示在什么时候进行任务调度
+     -->
+     <!-- 这里配置爬虫定时器任务 -->
+     <task:scheduled-tasks>
+        <task:scheduled ref="spiderTaskaaaa" method="resetRun"
+            fixed-delay="60000" initial-delay="3000"  />
+    </task:scheduled-tasks>  
+</beans>

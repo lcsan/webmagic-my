@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+     http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- 数据库链接池配置 -->
+	<bean id="columnDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<!-- 指定连接数据库的驱动 -->
+		<property name="driverClass" value="${jdbc.driver}" />
+		<!-- 指定连接数据库的URL -->
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<!-- 指定连接数据库的用户名 -->
+		<property name="user" value="${jdbc.user}" />
+		<!-- 指定连接数据库的密码 -->
+		<property name="password" value="${jdbc.password}" />
+		<!-- 指定连接池中保留的最大连接数. Default:15 -->
+		<property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+		<!-- 指定连接池中保留的最小连接数 -->
+		<property name="minPoolSize" value="${jdbc.minPoolSize}" />
+		<!-- 指定连接池的初始化连接数 取值应在minPoolSize 与 maxPoolSize 之间.Default:3 -->
+		<property name="initialPoolSize" value="${jdbc.initialPoolSize}" />
+		<!-- 最大空闲时间,60秒内未使用则连接被丢弃。若为0则永不丢弃。 Default:0 -->
+		<property name="maxIdleTime" value="${jdbc.maxIdleTime}" />
+		<!-- 每60秒检查所有连接池中的空闲连接.Default:0 -->
+		<property name="idleConnectionTestPeriod" value="${jdbc.idleConnectionTestPeriod}" />
+	</bean>
+
+	<!-- 配置事务管理器 -->
+	<bean id="columnTransactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="columnDataSource" />
+	</bean>
+
+	<!-- 启动spring事务注解，事务注解尽在此 -->
+	<tx:annotation-driven transaction-manager="columnTransactionManager" />
+
+	<!-- mybatis配置 -->
+
+	<!-- 配置sqlSessionFactory -->
+	<bean id="columnSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 实例化sqlSessionFactory时需要使用上述配置好的数据源以及SQL映射文件 -->
+		<property name="dataSource" ref="columnDataSource" />
+		<!-- 自动扫描mybatis/目录下的所有SQL映射的xml文件, 省掉Configuration.xml里的手工配置 value="mybatis/*.xml"指的是classpath(类路径)下xml文件 -->
+		<property name="mapperLocations">
+			<array>
+				<value>classpath:mybatis/*.xml</value>
+			</array>
+		</property>
+	</bean>
+	<!-- 配置扫描器 -->
+	<!-- <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		扫描com.huawei.video.cloud.pts.dao这个包以及它的子包下的所有映射接口类
+		<property name="basePackage" value="com.dom.parse.msj.dao" />
+		<property name="sqlSessionFactoryBeanName" value="columnSqlSessionFactory" />
+	</bean> -->
+
+</beans>
