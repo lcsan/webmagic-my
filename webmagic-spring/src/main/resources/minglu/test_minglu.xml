@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<models>
+	<model>
+		<bean name="minglulist">
+			<field name="name" type="list">
+				<extract expression="//td[@class='views-field views-field-field-province']/a/@href" />
+			</field>
+            <after>
+                def domain = page.getUrl().get()
+                obj.name.each{str->
+                    page.addTargetRequest(domain + str + "/node/1");
+                }
+            </after>
+		</bean>
+		<tagurl>
+			<expression>https://gongshang.mingluji.com</expression>
+		</tagurl>
+	</model>
+	<model>
+		<bean name="minglupage">
+            <field name="url" >
+                <extract expression="" source="Url"/>
+            </field>
+			<field name="minglu" type="object" leafid="mingluleaf">
+				<extract expression="//div[@style='float:left; width:340px; vertical-align:top;'][2]" />
+			</field>
+		</bean>
+		<tagurl>
+			<expression>https://gongshang.mingluji.com/\w+/node/\d+</expression>
+		</tagurl>
+	</model>
+	<model>
+		<bean name="mingluleaf" leaf="true">
+			<field name="key" >
+				<extract expression="//span[@class='field-label']/text()"/>
+			</field>
+            <field name="value" >
+                <extract expression="//span[@class='field-item']/allText()"/>
+            </field>
+		</bean>
+		<extract expression="//li" multi="true"/>
+	</model>
+</models>

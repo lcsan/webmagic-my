@@ -21,6 +21,8 @@
     <!-- <import resource="db/data_source.xml"/> -->
 	<!-- spider -->
 	<import resource="crawler/crawler_tudou8.xml"/>
+    <!-- spider -->
+    <import resource="minglu/crawler_minglu.xml"/>
 	
     <!-- 
     ref是工作类
@@ -32,7 +34,9 @@
      -->
      <!-- 这里配置爬虫定时器任务 -->
      <task:scheduled-tasks>
-        <task:scheduled ref="spiderTaskaaaa" method="resetRun"
-            fixed-delay="60000" initial-delay="3000"  />
+        <task:scheduled ref="iqiyitask" method="resetRun"
+            fixed-delay="60000" initial-delay="1000"  />
+        <task:scheduled ref="mltask" method="resetRun"
+            fixed-delay="60000" initial-delay="2000"  />
     </task:scheduled-tasks>  
 </beans>

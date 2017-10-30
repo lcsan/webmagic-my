@@ -30,21 +30,17 @@
 		<constructor-arg name="pool" ref="jedisPool" />
 	</bean>
 	<!-- Spider -->
-	<bean id="spider1" class="us.codecraft.webmagic.model.OOSpider"
+	<bean id="spider" class="us.codecraft.webmagic.model.OOSpider"
 		destroy-method="close">
 		<constructor-arg name="site" ref="site" />
 		<constructor-arg name="pageModelPipeline" ref="pipeline" />
-		<constructor-arg name="paths">
-			<value>${model.paths}</value>
-		</constructor-arg>
+		<constructor-arg name="paths" value="${model.paths}" />
 		<property name="scheduler" ref="redisScheduler" /> 
 	</bean>
 	<!-- task -->
-	<bean id="spiderTaskaaaa" class="org.webmagic.spring.SpiderTask">
-		<constructor-arg name="spider" ref="spider1" />
-		<constructor-arg name="urls">
-			<value>${spider.urls}</value>
-		</constructor-arg>
+	<bean id="iqiyitask" class="org.webmagic.spring.SpiderTask">
+		<constructor-arg name="spider" ref="spider" />
+		<constructor-arg name="urls" value="${spider.urls}" />
 		<constructor-arg name="threadNum" value="${thread.number}" />
 	</bean>
 </beans>
