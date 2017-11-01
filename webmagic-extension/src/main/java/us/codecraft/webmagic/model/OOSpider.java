@@ -7,6 +7,7 @@ import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.model.xml.Xml2Models;
 import us.codecraft.webmagic.model.xml.bean.Model;
+import us.codecraft.webmagic.model.xml.bean.Models;
 import us.codecraft.webmagic.pipeline.CollectorPipeline;
 import us.codecraft.webmagic.pipeline.PageModelPipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
@@ -49,7 +50,7 @@ public class OOSpider<T> extends Spider {
 
     private ModelPipeline modelPipeline;
 
-    private PageModelPipeline pageModelPipeline;
+    // private PageModelPipeline pageModelPipeline;
 
     private List<String> pageModelClasses = new ArrayList<String>();
 
@@ -92,10 +93,14 @@ public class OOSpider<T> extends Spider {
     }
 
     public OOSpider(Site site, PageModelPipeline pageModelPipeline, String... paths) {
-        this(ModelPageProcessor.create(site, Xml2Models.create(paths).getModes()));
+        this(site, pageModelPipeline, Xml2Models.create(paths));
+    }
+
+    public OOSpider(Site site, PageModelPipeline pageModelPipeline, Models models) {
+        this(ModelPageProcessor.create(site, models));
         this.modelPipeline = new ModelPipeline();
         super.addPipeline(modelPipeline);
-        List<Model> list = Xml2Models.create(paths).getModes();
+        List<Model> list = models.getModes();
         for (Model pageModel : list) {
             if (!pageModel.getBean().isLeaf()) {
                 String key = pageModel.getBean().getName();

@@ -6,6 +6,7 @@ import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.model.pageextra.PageModelList;
 import us.codecraft.webmagic.model.xml.bean.Model;
+import us.codecraft.webmagic.model.xml.bean.Models;
 import us.codecraft.webmagic.processor.PageProcessor;
 
 /**
@@ -34,6 +35,10 @@ public class ModelPageProcessor implements PageProcessor {
 
     public static ModelPageProcessor create(Site site, Class... clazzs) {
         return new ModelPageProcessor(site, clazzs);
+    }
+
+    public static ModelPageProcessor create(Site site, Models models) {
+        return new ModelPageProcessor(site, models.getModes().toArray(new Model[] {}));
     }
 
     public ModelPageProcessor addPageModel(Class clazz) {
