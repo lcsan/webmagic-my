@@ -12,14 +12,14 @@
 		<retryTimes>1</retryTimes>
 		<cycleRetryTimes>1</cycleRetryTimes>
 		<retrySleepTime>200</retrySleepTime>
-		<timeOut>5000</timeOut>
+		<timeout>5000</timeout>
 		<useGzip>true</useGzip>
 		<disableCookieManagement>false</disableCookieManagement>
 		<threadSize>1</threadSize>
 		<resetQueue>false</resetQueue>
-		<useRedis>false</useRedis>
+        <usePriority>true</usePriority>
+		<useRedis>true</useRedis>
 		<useDb>false</useDb>
-		<usePriority>false</usePriority>
         <url>
             <![CDATA[
                 http://www.iqiyi.com/lib/s_215641805.html , http://www.iqiyi.com/lib/s_234967205.html
@@ -110,7 +110,7 @@
 		<host>127.0.0.1</host>
 		<port>6379</port>
 		<password></password>
-		<timeOut></timeOut>
+		<timeout></timeout>
 		<dbIndex></dbIndex>
 	</redis>
 	<database>
