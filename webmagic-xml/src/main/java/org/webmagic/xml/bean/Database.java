@@ -1,4 +1,4 @@
-package org.webmagic.spring;
+package org.webmagic.xml.bean;
 
 import javax.xml.bind.annotation.XmlElement;
 

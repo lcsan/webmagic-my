@@ -1,11 +1,15 @@
-package org.webmagic.spring;
+package org.webmagic.xml.bean;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.alibaba.fastjson.JSON;
 
+import us.codecraft.webmagic.model.OOSpider;
 import us.codecraft.webmagic.model.xml.bean.Models;
+import us.codecraft.webmagic.scheduler.PriorityScheduler;
+import us.codecraft.webmagic.scheduler.RedisPriorityScheduler;
+import us.codecraft.webmagic.scheduler.RedisScheduler;
 
 @XmlRootElement(name = "spider")
 public class Spider {
@@ -16,6 +20,7 @@ public class Spider {
 	private Pipeline pipeline;
 	private Models models;
 	private Task task;
+	private us.codecraft.webmagic.Spider spider;
 
 	public Site getSite() {
 		return site;
@@ -69,6 +74,23 @@ public class Spider {
 	@XmlElement(name = "task")
 	public void setTask(Task task) {
 		this.task = task;
+	}
+
+	public us.codecraft.webmagic.Spider getSpider() {
+		if (null == spider) {
+			spider = OOSpider.create(site.getSite(), pipeline.getPipeline(), models).addUrl(site.getStartUrls())
+					.thread(site.getThreadSize());
+			if (site.isUseRedis()) {
+				if (site.isUsePriority()) {
+					spider.setScheduler(new RedisPriorityScheduler(redis.getRedisPool()));
+				} else {
+					spider.setScheduler(new RedisScheduler(redis.getRedisPool()));
+				}
+			} else if (site.isUsePriority()) {
+				spider.setScheduler(new PriorityScheduler());
+			}
+		}
+		return spider;
 	}
 
 	@Override

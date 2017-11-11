@@ -1,9 +1,10 @@
-package org.webmagic.spring;
+package org.webmagic.xml.bean;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlValue;
 
-public class Cookie {
+public class Header {
+
 	private String key;
 	private String value;
 
@@ -27,7 +28,7 @@ public class Cookie {
 
 	@Override
 	public String toString() {
-		return "Cookie [key=" + key + ", value=" + value + "]";
+		return "Header [key=" + key + ", value=" + value + "]";
 	}
 
 }

@@ -51,6 +51,7 @@
         <module>webmagic-core</module>
         <module>webmagic-extension/</module>
     <module>webmagic-spring</module>
+    <module>webmagic-xml</module>
   </modules>
 
     <dependencyManagement>

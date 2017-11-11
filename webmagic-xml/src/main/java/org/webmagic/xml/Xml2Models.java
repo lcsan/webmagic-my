@@ -1,4 +1,4 @@
-package xml;
+package org.webmagic.xml;
 
 import java.io.File;
 import java.io.FileInputStream;

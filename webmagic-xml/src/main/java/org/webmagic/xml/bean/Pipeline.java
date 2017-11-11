@@ -1,9 +1,14 @@
-package org.webmagic.spring;
+package org.webmagic.xml.bean;
 
 import javax.xml.bind.annotation.XmlValue;
 
+import org.webmagic.xml.GroovyPageModelPipeline;
+
 public class Pipeline {
+
 	private String code;
+
+	private GroovyPageModelPipeline pipeline;
 
 	public String getCode() {
 		return code;
@@ -12,6 +17,13 @@ public class Pipeline {
 	@XmlValue
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public GroovyPageModelPipeline getPipeline() {
+		if (null == pipeline) {
+			pipeline = new GroovyPageModelPipeline(code);
+		}
+		return pipeline;
 	}
 
 	@Override

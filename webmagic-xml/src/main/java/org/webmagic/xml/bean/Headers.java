@@ -1,4 +1,4 @@
-package org.webmagic.spring;
+package org.webmagic.xml.bean;
 
 import java.util.ArrayList;
 import java.util.List;

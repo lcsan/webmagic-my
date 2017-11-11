@@ -1,5 +1,6 @@
-package org.webmagic.spring;
+package org.webmagic.xml.bean;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,7 +45,7 @@ public class Site {
 
 	private int retrySleepTime = 500;
 
-	private int timeOut = 5000;
+	private int timeout = 5000;
 
 	private boolean useGzip = true;
 
@@ -56,9 +57,13 @@ public class Site {
 
 	private boolean useRedis = false;
 
+	private boolean usePriority = false;
+
 	private boolean useDb = false;
 
 	private Requests requests;
+
+	private String[] startUrls;
 
 	public String getDomain() {
 		return domain;
@@ -136,14 +141,13 @@ public class Site {
 		site.setRetrySleepTime(retrySleepTime);
 	}
 
-	public int getTimeOut() {
-		return timeOut;
+	public int getTimeout() {
+		return timeout;
 	}
 
-	@XmlElement(name = "timeOut")
-	public void setTimeOut(int timeOut) {
-		this.timeOut = timeOut;
-		site.setTimeOut(timeOut);
+	@XmlElement(name = "timeout")
+	public void setTimeout(int timeout) {
+		this.timeout = timeout;
 	}
 
 	public boolean isUseGzip() {
@@ -324,8 +328,35 @@ public class Site {
 		this.requests = requests;
 	}
 
+	public boolean isUsePriority() {
+		return usePriority;
+	}
+
+	@XmlElement(name = "usePriority")
+	public void setUsePriority(boolean usePriority) {
+		this.usePriority = usePriority;
+	}
+
 	public us.codecraft.webmagic.Site getSite() {
 		return site;
+	}
+
+	public String[] getStartUrls() {
+		if (null == startUrls) {
+			if (StringUtils.isNotBlank(url)) {
+				startUrls = url.trim().split("\\s*,\\s*");
+				if (null != urls) {
+					String[] us = urls.getUrl();
+					String[] result = Arrays.copyOf(us, us.length + startUrls.length);
+					System.arraycopy(startUrls, 0, result, us.length, startUrls.length);
+				}
+			}
+		}
+		return startUrls;
+	}
+
+	public void setStartUrls(String[] startUrls) {
+		this.startUrls = startUrls;
 	}
 
 	@Override

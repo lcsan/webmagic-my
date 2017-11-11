@@ -1,4 +1,4 @@
-package org.webmagic.spring;
+
 
 import java.io.IOException;
 
