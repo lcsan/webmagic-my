@@ -93,6 +93,19 @@ public class Spider {
 		return spider;
 	}
 
+	public void run() {
+		if (null != task) {
+			task.runTask(getSpider(), site.isResetQueue());
+		}
+	}
+
+	public void close() {
+		if (null != task) {
+			task.close();
+		}
+		getSpider().reset(false);
+	}
+
 	@Override
 	public String toString() {
 		return JSON.toJSONString(this);

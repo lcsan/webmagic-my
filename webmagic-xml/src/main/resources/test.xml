@@ -15,96 +15,54 @@
 		<timeout>5000</timeout>
 		<useGzip>true</useGzip>
 		<disableCookieManagement>false</disableCookieManagement>
-		<threadSize>1</threadSize>
+		<threadSize>10</threadSize>
 		<resetQueue>false</resetQueue>
-        <usePriority>true</usePriority>
-		<useRedis>true</useRedis>
+		<usePriority>true</usePriority>
+		<useRedis>false</useRedis>
 		<useDb>false</useDb>
-        <url>
+		<url>
             <![CDATA[
                 http://www.iqiyi.com/lib/s_215641805.html , http://www.iqiyi.com/lib/s_234967205.html
             ]]>
-        </url>
-        <acceptStatCode>200</acceptStatCode>
-        
+		</url>
+		<acceptStatCode>200</acceptStatCode>
+
 		<!-- 字符串格式 -->
-		<!-- <cookie>
-			  <![CDATA[
-			      __guid=26936763.670147605910933600.1510325694223.3628; monitor_count=1; __utma=55973678.1155684392.1510325696.1510325696.1510325696.1; __utmc=55973678; __utmz=55973678.1510325696.1.1.utmccn=(organic)|utmcsr=baidu|utmctr=|utmcmd=organic
-			  ]]>
-		</cookie>
-		<header>
-	        <![CDATA[
-	            Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
-	            Accept-Encoding:gzip, deflate, sdch
-	            Accept-Language:zh-CN,zh;q=0.8
-	            Cache-Control:max-age=0
-	            Connection:keep-alive
-	            Cookie:__guid=26936763.670147605910933600.1510325694223.3628; monitor_count=1; __utma=55973678.1155684392.1510325696.1510325696.1510325696.1; __utmc=55973678; __utmz=55973678.1510325696.1.1.utmccn=(organic)|utmcsr=baidu|utmctr=|utmcmd=organic
-	            Host:www.tutorialspoint.com
-	            Upgrade-Insecure-Requests:1
-	            User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36
-	         ]]>
-		</header> -->
+		<!-- <cookie> <![CDATA[ __guid=26936763.670147605910933600.1510325694223.3628; 
+			monitor_count=1; __utma=55973678.1155684392.1510325696.1510325696.1510325696.1; 
+			__utmc=55973678; __utmz=55973678.1510325696.1.1.utmccn=(organic)|utmcsr=baidu|utmctr=|utmcmd=organic 
+			]]> </cookie> <header> <![CDATA[ Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8 
+			Accept-Encoding:gzip, deflate, sdch Accept-Language:zh-CN,zh;q=0.8 Cache-Control:max-age=0 
+			Connection:keep-alive Cookie:__guid=26936763.670147605910933600.1510325694223.3628; 
+			monitor_count=1; __utma=55973678.1155684392.1510325696.1510325696.1510325696.1; 
+			__utmc=55973678; __utmz=55973678.1510325696.1.1.utmccn=(organic)|utmcsr=baidu|utmctr=|utmcmd=organic 
+			Host:www.tutorialspoint.com Upgrade-Insecure-Requests:1 User-Agent:Mozilla/5.0 
+			(Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 
+			Safari/537.36 ]]> </header> -->
 		<!-- 多个值","分隔 -->
 
 		<!-- 对象格式 -->
-		<!-- <cookies>
-			<cookie key="a">1</cookie>
-			<cookie key="c">2</cookie>
-			<cookie key="c">3</cookie>
-		</cookies>
-		<headers>
-			<header key="e">4</header>
-			<header key="f">5</header>
-			<header key="g">6</header>
-		</headers>
-		<urls>
-			<url>f</url>
-			<url>e</url>
-			<url>v</url>
-		</urls>
-		<acceptStatCodes>
-			<acceptStatCode>200</acceptStatCode>
-		</acceptStatCodes> -->
+		<!-- <cookies> <cookie key="a">1</cookie> <cookie key="c">2</cookie> <cookie 
+			key="c">3</cookie> </cookies> <headers> <header key="e">4</header> <header 
+			key="f">5</header> <header key="g">6</header> </headers> <urls> <url>f</url> 
+			<url>e</url> <url>v</url> </urls> <acceptStatCodes> <acceptStatCode>200</acceptStatCode> 
+			</acceptStatCodes> -->
 
-		<!-- <requests>
-			<request>
-				<url>aa</url>
-				<method>post</method>
-				<requestBody>sss</requestBody>
-				<priority>11</priority>
-				<cookie>
-              <![CDATA[
-                  __guid=26936763.670147605910933600.1510325694223.3628; monitor_count=1; __utma=55973678.1155684392.1510325696.1510325696.1510325696.1; __utmc=55973678; __utmz=55973678.1510325696.1.1.utmccn=(organic)|utmcsr=baidu|utmctr=|utmcmd=organic
-              ]]>
-				</cookie>
-				<header>
-            <![CDATA[
-                Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
-                Accept-Encoding:gzip, deflate, sdch
-                Accept-Language:zh-CN,zh;q=0.8
-                Cache-Control:max-age=0
-                Connection:keep-alive
-                Cookie:__guid=26936763.670147605910933600.1510325694223.3628; monitor_count=1; __utma=55973678.1155684392.1510325696.1510325696.1510325696.1; __utmc=55973678; __utmz=55973678.1510325696.1.1.utmccn=(organic)|utmcsr=baidu|utmctr=|utmcmd=organic
-                Host:www.tutorialspoint.com
-                Upgrade-Insecure-Requests:1
-                User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36
-             ]]>
-				</header>
-				对象格式
-				<cookies>
-					<cookie key="a">1</cookie>
-					<cookie key="c">2</cookie>
-					<cookie key="c">3</cookie>
-				</cookies>
-				<headers>
-					<header key="e">4</header>
-					<header key="f">5</header>
-					<header key="g">6</header>
-				</headers>
-			</request>
-		</requests> -->
+		<!-- <requests> <request> <url>aa</url> <method>post</method> <requestBody>sss</requestBody> 
+			<priority>11</priority> <cookie> <![CDATA[ __guid=26936763.670147605910933600.1510325694223.3628; 
+			monitor_count=1; __utma=55973678.1155684392.1510325696.1510325696.1510325696.1; 
+			__utmc=55973678; __utmz=55973678.1510325696.1.1.utmccn=(organic)|utmcsr=baidu|utmctr=|utmcmd=organic 
+			]]> </cookie> <header> <![CDATA[ Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8 
+			Accept-Encoding:gzip, deflate, sdch Accept-Language:zh-CN,zh;q=0.8 Cache-Control:max-age=0 
+			Connection:keep-alive Cookie:__guid=26936763.670147605910933600.1510325694223.3628; 
+			monitor_count=1; __utma=55973678.1155684392.1510325696.1510325696.1510325696.1; 
+			__utmc=55973678; __utmz=55973678.1510325696.1.1.utmccn=(organic)|utmcsr=baidu|utmctr=|utmcmd=organic 
+			Host:www.tutorialspoint.com Upgrade-Insecure-Requests:1 User-Agent:Mozilla/5.0 
+			(Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 
+			Safari/537.36 ]]> </header> 对象格式 <cookies> <cookie key="a">1</cookie> <cookie 
+			key="c">2</cookie> <cookie key="c">3</cookie> </cookies> <headers> <header 
+			key="e">4</header> <header key="f">5</header> <header key="g">6</header> 
+			</headers> </request> </requests> -->
 	</site>
 	<redis>
 		<host>127.0.0.1</host>
@@ -134,6 +92,7 @@
 	<pipeline>
 	    <![CDATA[
 	       println(obj);
+           println(obj.iqiyisub.name);
 	     ]]>
 	</pipeline>
 	<models>
@@ -156,24 +115,6 @@
 			</tagurl>
 		</model>
 		<model>
-			<bean name="IqiyiPage1">
-				<field name="name">
-					<extract expression="xpath('//*[@itemprop='name']/text()')" />
-				</field>
-				<field name="names">
-					<extract expression="xpath('//*[@itemprop='name1']/text()')"
-						notnull="false" />
-				</field>
-
-				<field name="iqiyisub" type="object" leafid="iqiyi1">
-					<extract expression="*" />
-				</field>
-			</bean>
-			<tagurl>
-				<expression>http://www.iqiyi.com/lib/s_\d+.html</expression>
-			</tagurl>
-		</model>
-		<model>
 			<bean name="iqiyi1" leaf="true">
 				<field name="name">
 					<extract expression="//*[@itemprop='name']/text()" />
@@ -182,5 +123,8 @@
 		</model>
 	</models>
 	<task>
+		<delay>1000</delay>
+		<period>6000</period>
+		<atFixedRate>false</atFixedRate>
 	</task>
 </spider>

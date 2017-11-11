@@ -148,6 +148,7 @@ public class Site {
 	@XmlElement(name = "timeout")
 	public void setTimeout(int timeout) {
 		this.timeout = timeout;
+		site.setTimeOut(timeout);
 	}
 
 	public boolean isUseGzip() {

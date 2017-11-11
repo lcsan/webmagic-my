@@ -12,8 +12,8 @@ public class Test {
 		// .addUrl("http://www.iqiyi.com/lib/s_200002105.html").thread(20);
 		// sp.run();
 		Spider test = Xml2Models.parse("test.xml", Spider.class);
-
-		test.getSpider().run();
+		test.run();
+		// test.getSpider().run();
 		// System.out.println(test.getSite().getSite());
 		// System.out.println(test.getAny().get(0));
 	}
