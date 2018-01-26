@@ -31,6 +31,9 @@ public abstract class AbstractSelectable implements Selectable {
                 results.add(result);
             }
         }
+		if (results.isEmpty()) {
+			return null;
+		}
         return new PlainText(results);
     }
 
@@ -40,6 +43,9 @@ public abstract class AbstractSelectable implements Selectable {
             List<String> result = selector.selectList(string);
             results.addAll(result);
         }
+		if (results.isEmpty()) {
+			return null;
+		}
         return new PlainText(results);
     }
 
