@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spider>
+	<site>
+	    <!-- 域名 -->
+		<domain>iqiyi</domain>
+		<!-- 浏览器标识 -->
+		<userAgent>
+		  <![CDATA[
+		      Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36 QIHU 360SE
+			]]>
+		</userAgent>
+		<!-- 页面编码 -->
+		<charset>UTF-8</charset>
+		<!-- 任务休眠时间 -->
+		<sleepTime>200</sleepTime>
+		<!-- 立即重试次数 -->
+		<retryTimes>1</retryTimes>
+		<!-- 队尾重试次数 -->
+		<cycleRetryTimes>1</cycleRetryTimes>
+		<!-- 重试间隔 -->
+		<retrySleepTime>200</retrySleepTime>
+		<!-- 请求超时时间 -->
+		<timeout>5000</timeout>
+		<!-- 是否GZIP压缩 -->
+		<useGzip>true</useGzip>
+		<!-- 禁止cookie管理 -->
+		<disableCookieManagement>false</disableCookieManagement>
+<<<<<<< HEAD
+		<!-- 下载线程数 -->
+		<threadSize>10</threadSize>
+		<!-- 定时任务，是否重置历史爬取url -->
+=======
+		<threadSize>10</threadSize>
+>>>>>>> branch 'master' of https://github.com/lcsan/webmagic-my
+		<resetQueue>false</resetQueue>
+<<<<<<< HEAD
+		<!-- 是否启动优先级设置 -->
+		<usePriority>true</usePriority>
+		<!-- 是否使用redis -->
+		<useRedis>false</useRedis>
+		<!-- 是否用database -->
+=======
+		<usePriority>true</usePriority>
+		<useRedis>false</useRedis>
+>>>>>>> branch 'master' of https://github.com/lcsan/webmagic-my
+		<useDb>false</useDb>
+<<<<<<< HEAD
+		<!-- 要爬取的地址 -->
+=======
+>>>>>>> branch 'master' of https://github.com/lcsan/webmagic-my
+		<url>
+            <![CDATA[
+                https://item.jd.com/1374155.html,
+                 https://item.jd.com/1374156.html,
+                 https://item.jd.com/1374157.html,
+                 https://item.jd.com/1374158.html
+            ]]>
+		</url>
+		<acceptStatCode>200</acceptStatCode>
+
+		<!-- 字符串格式 -->
+		<!-- <cookie> <![CDATA[ __guid=26936763.670147605910933600.1510325694223.3628; 
+			monitor_count=1; __utma=55973678.1155684392.1510325696.1510325696.1510325696.1; 
+			__utmc=55973678; __utmz=55973678.1510325696.1.1.utmccn=(organic)|utmcsr=baidu|utmctr=|utmcmd=organic 
+			]]> </cookie> <header> <![CDATA[ Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8 
+			Accept-Encoding:gzip, deflate, sdch Accept-Language:zh-CN,zh;q=0.8 Cache-Control:max-age=0 
+			Connection:keep-alive Cookie:__guid=26936763.670147605910933600.1510325694223.3628; 
+			monitor_count=1; __utma=55973678.1155684392.1510325696.1510325696.1510325696.1; 
+			__utmc=55973678; __utmz=55973678.1510325696.1.1.utmccn=(organic)|utmcsr=baidu|utmctr=|utmcmd=organic 
+			Host:www.tutorialspoint.com Upgrade-Insecure-Requests:1 User-Agent:Mozilla/5.0 
+			(Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 
+			Safari/537.36 ]]> </header> -->
+		<!-- 多个值","分隔 -->
+
+		<!-- 对象格式 -->
+		<!-- <cookies> <cookie key="a">1</cookie> <cookie key="c">2</cookie> <cookie 
+			key="c">3</cookie> </cookies> <headers> <header key="e">4</header> <header 
+			key="f">5</header> <header key="g">6</header> </headers> <urls> <url>f</url> 
+			<url>e</url> <url>v</url> </urls> <acceptStatCodes> <acceptStatCode>200</acceptStatCode> 
+			</acceptStatCodes> -->
+
+		<!-- <requests> <request> <url>aa</url> <method>post</method> <requestBody>sss</requestBody> 
+			<priority>11</priority> <cookie> <![CDATA[ __guid=26936763.670147605910933600.1510325694223.3628; 
+			monitor_count=1; __utma=55973678.1155684392.1510325696.1510325696.1510325696.1; 
+			__utmc=55973678; __utmz=55973678.1510325696.1.1.utmccn=(organic)|utmcsr=baidu|utmctr=|utmcmd=organic 
+			]]> </cookie> <header> <![CDATA[ Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8 
+			Accept-Encoding:gzip, deflate, sdch Accept-Language:zh-CN,zh;q=0.8 Cache-Control:max-age=0 
+			Connection:keep-alive Cookie:__guid=26936763.670147605910933600.1510325694223.3628; 
+			monitor_count=1; __utma=55973678.1155684392.1510325696.1510325696.1510325696.1; 
+			__utmc=55973678; __utmz=55973678.1510325696.1.1.utmccn=(organic)|utmcsr=baidu|utmctr=|utmcmd=organic 
+			Host:www.tutorialspoint.com Upgrade-Insecure-Requests:1 User-Agent:Mozilla/5.0 
+			(Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 
+			Safari/537.36 ]]> </header> 对象格式 <cookies> <cookie key="a">1</cookie> <cookie 
+			key="c">2</cookie> <cookie key="c">3</cookie> </cookies> <headers> <header 
+			key="e">4</header> <header key="f">5</header> <header key="g">6</header> 
+			</headers> </request> </requests> -->
+	</site>
+	<redis>
+		<host>127.0.0.1</host>
+		<port>6379</port>
+		<password></password>
+		<timeout></timeout>
+		<dbIndex></dbIndex>
+	</redis>
+	<database>
+		<driver>com.mysql.jdbc.Driver</driver>
+		<url>
+		  <![CDATA[
+		      jdbc:mysql://ip:port/table?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
+		  ]]>
+		</url>
+		<userName>111</userName>
+		<password>222</password>
+		<initialSize>2</initialSize>
+		<minIdle>1</minIdle>
+		<maxActive>5</maxActive>
+		<maxIdleTime>120</maxIdleTime>
+		<idleConnectionTestPeriod>60</idleConnectionTestPeriod>
+		<maxPoolSize>15</maxPoolSize>
+		<minPoolSize>10</minPoolSize>
+		<initialPoolSize>3</initialPoolSize>
+	</database>
+	<pipeline>
+	    <![CDATA[
+	       println(obj);
+           println(obj.iqiyisub.name);
+	     ]]>
+	</pipeline>
+	<models>
+		<model>
+			<bean name="jdPage">
+                <field name="id" transmitflag="true">
+                    <extract expression="(\d+)"  source="Url"/>
+                </field>
+			    <field name="spec" type="list" foundflag="true">
+					<extract expression="xpath('//div[@id='spec-list']//img/@src').replace('(^.*?$)','http:$1').replace('/[^/]*jfs/','/s800x800_jfs/')" />
+				</field>
+				<field name="content" foundflag="true">
+					<extract expression="regex('https://item\.jd\.com/(.*?)\.html',1).replace('(^.*?$)','https://cd\.jd\.com/description/channel\?skuId=$1&amp;mainSkuId=$1&amp;cdn=2&amp;callback=showdesc')" source="Url"/>
+				</field>
+			</bean>
+			<tagurl region="//xxx">
+				<expression>https://item.jd.com/*.html</expression>
+			</tagurl>
+		</model>
+		<model>
+<<<<<<< HEAD
+			<bean name="jdcontent">
+                <field name="id" transmitflag="true">
+                    <extract expression="(\d+)"  source="Url"/>
+                </field>
+				<field name="imgs" type="list" foundflag="true">
+					<extract expression="xpath('//img/@data-lazyload').replace('(^.*?$)','http:$1')" />
+				</field>
+				<field name="contents">
+                    <extract expression="xpath('//div/tidyText()')" />
+                </field>
+                <after>
+                    if(!(obj.contents ==~ /\s*/)){
+                        def path = "./${obj.id}/desc/desc.txt"
+                        def file = new File(path);
+                        file.getParentFile().mkdirs();
+
+                        file.withWriter('utf-8') { writer ->
+						  writer.writeLine obj.contents
+						}
+                    }
+                </after>
+			</bean>
+			<extract expression="json('$..content')"/>
+            <tagurl>
+                <expression>https://cd.jd.com/description/channel\?skuId=\d+&amp;mainSkuId=\d+&amp;cdn=2&amp;callback=showdesc</expression>
+            </tagurl>
+		</model>		
+        <model>
+            <bean name="downimg">
+                <field name="path">
+                    <extract expression="" source="Url"/>
+                </field>
+                <after>                    
+                    
+                    def path = obj.path;
+                    def id = page.getRequest().getExtra("id");  
+                                                     
+                    def lf = path =~ /^.*\/([^\/]+)$/;
+                    lf.matches();
+                    def ph = lf[0][1];
+                    if(path.contains("s800x800_jfs")){
+                        path = "./${id}/800x800/${ph}"; 
+                    } else{
+                        path = "./${id}/content/${ph}"; 
+                    }
+                                       
+                    def file = new File(path);
+                    file.getParentFile().mkdirs();
+                    file.bytes = page.getBytes();
+                    
+                </after>
+            </bean>
+            <tagurl region="//xxx">
+                <expression>*.jpg</expression>
+            </tagurl>
+        </model>
+=======
+			<bean name="iqiyi1" leaf="true">
+				<field name="name">
+					<extract expression="//*[@itemprop='name']/text()" />
+				</field>
+			</bean>
+		</model>
+>>>>>>> branch 'master' of https://github.com/lcsan/webmagic-my
+	</models>
+<<<<<<< HEAD
+	<!-- <task>
+		<delay>1000</delay>
+		<period>6000</period>
+		<atFixedRate>false</atFixedRate>
+	</task> -->
+=======
+	<task>
+		<delay>1000</delay>
+		<period>6000</period>
+		<atFixedRate>false</atFixedRate>
+	</task>
+>>>>>>> branch 'master' of https://github.com/lcsan/webmagic-my
+</spider>
