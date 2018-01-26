@@ -70,16 +70,6 @@ public abstract class AbsPageModelExtractor implements PageModelExtractor {
     PageModelList pageModelList;
 
     /**
-     * 规则抽取往下传递的参数
-     */
-    Map<String, Object> extras = new HashMap<String, Object>();
-
-    /**
-     * 规则抽取添加到发现的url
-     */
-    List<Request> requests = new ArrayList<Request>();
-
-    /**
      * init a Object to save result
      * 
      * @return Object Object
@@ -244,6 +234,9 @@ public abstract class AbsPageModelExtractor implements PageModelExtractor {
         Object obj = null;
         try {
             obj = initResultObj();
+            Map<String, Object> extras = new HashMap<String, Object>();
+			List<Request> requests = new ArrayList<Request>();
+			
             for (FieldParser fieldExtractor : fieldExtra) {
                 if (fieldExtractor.selectSource(obj, page, html, isRaw)) {
                     Field field = fieldExtractor.getField();
