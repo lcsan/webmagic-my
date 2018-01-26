@@ -175,7 +175,12 @@ public abstract class AbsPageModelExtractor implements PageModelExtractor {
         if (urlRegionSelector == null) {
             links = page.getHtml().links().all();
         } else {
-            links = page.getHtml().selectList(urlRegionSelector).links().all();
+		Selectable sel = page.getHtml().selectList(urlRegionSelector);
+		if (null == sel) {
+			links = new ArrayList<String>();
+		} else {
+			links = new Html(sel.toString()).links().all();
+		}
         }
         for (String link : links) {
             for (Pattern targetUrlPattern : urlPatterns) {
