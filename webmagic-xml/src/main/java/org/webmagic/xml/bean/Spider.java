@@ -96,6 +96,8 @@ public class Spider {
 	public void run() {
 		if (null != task) {
 			task.runTask(getSpider(), site.isResetQueue());
+		} else {
+			getSpider().run();
 		}
 	}
 
