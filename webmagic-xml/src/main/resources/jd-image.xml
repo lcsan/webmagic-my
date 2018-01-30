@@ -38,10 +38,7 @@
 		<!-- 要爬取的地址 -->
 		<url>
             <![CDATA[
-                https://item.jd.com/1374155.html,
-                 https://item.jd.com/1374156.html,
-                 https://item.jd.com/1374157.html,
-                 https://item.jd.com/1374158.html
+                https://item.jd.com/1374189.html
             ]]>
 		</url>
 		<acceptStatCode>200</acceptStatCode>
@@ -142,15 +139,19 @@
                     <extract expression="xpath('//div/tidyText()')" />
                 </field>
                 <after>
-                    if(!(obj.contents ==~ /\s*/)){
-                        def path = "./download/${obj.id}/desc/desc.txt"
-                        def file = new File(path);
-                        file.getParentFile().mkdirs();
-
-                        file.withWriter('utf-8') { writer ->
-						  writer.writeLine obj.contents
-						}
+                    <![CDATA[
+                    def after(page,obj){
+	                    if(!(obj.contents ==~ /\s*/)){
+	                        def path = "./download/${obj.id}/desc/desc.txt"
+	                        def file = new File(path);
+	                        file.getParentFile().mkdirs();
+	
+	                        file.withWriter('utf-8') { writer ->
+							  writer.writeLine obj.contents
+							}
+	                    }
                     }
+                    ]]>
                 </after>
 			</bean>
 			<extract expression="json('$..content')"/>
@@ -164,22 +165,25 @@
                     <extract expression="" source="Url"/>
                 </field>
                 <after>                    
-                    
-                    def path = obj.path;
-                    def id = page.getRequest().getExtra("id");  
-                                                     
-                    def lf = path =~ /^.*\/([^\/]+)$/;
-                    lf.matches();
-                    def ph = lf[0][1];
-                    if(path.contains("s800x800_jfs")){
-                        path = "./download/${id}/800x800/${ph}"; 
-                    } else{
-                        path = "./download/${id}/content/${ph}"; 
+                    <![CDATA[
+                    def after(page,obj){
+	                    def path = obj.path;
+	                    def id = page.getRequest().getExtra("id");  
+	                                                     
+	                    def lf = path =~ /^.*\/([^\/]+)$/;
+	                    lf.matches();
+	                    def ph = lf[0][1];
+	                    if(path.contains("s800x800_jfs")){
+	                        path = "./download/${id}/800x800/${ph}"; 
+	                    } else{
+	                        path = "./download/${id}/content/${ph}"; 
+	                    }
+	                                       
+	                    def file = new File(path);
+	                    file.getParentFile().mkdirs();
+	                    file.bytes = page.getBytes();
                     }
-                                       
-                    def file = new File(path);
-                    file.getParentFile().mkdirs();
-                    file.bytes = page.getBytes();
+                    ]]>
                     
                 </after>
             </bean>
