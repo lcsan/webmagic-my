@@ -19,6 +19,8 @@ import us.codecraft.webmagic.model.xml.bean.Extract;
 import us.codecraft.webmagic.model.xml.bean.Field;
 import us.codecraft.webmagic.model.xml.bean.Helpurl;
 import us.codecraft.webmagic.model.xml.bean.Tagurl;
+import us.codecraft.webmagic.selector.Html;
+import us.codecraft.webmagic.selector.Selectable;
 import us.codecraft.webmagic.selector.Selector;
 
 public abstract class AbsPageModelExtractor implements PageModelExtractor {
@@ -175,12 +177,12 @@ public abstract class AbsPageModelExtractor implements PageModelExtractor {
         if (urlRegionSelector == null) {
             links = page.getHtml().links().all();
         } else {
-		Selectable sel = page.getHtml().selectList(urlRegionSelector);
-		if (null == sel) {
-			links = new ArrayList<String>();
-		} else {
-			links = new Html(sel.toString()).links().all();
-		}
+            Selectable sel = page.getHtml().selectList(urlRegionSelector);
+            if (null == sel) {
+                links = new ArrayList<String>();
+            } else {
+                links = new Html(sel.toString()).links().all();
+            }
         }
         for (String link : links) {
             for (Pattern targetUrlPattern : urlPatterns) {
@@ -240,8 +242,8 @@ public abstract class AbsPageModelExtractor implements PageModelExtractor {
         try {
             obj = initResultObj();
             Map<String, Object> extras = new HashMap<String, Object>();
-			List<Request> requests = new ArrayList<Request>();
-			
+            List<Request> requests = new ArrayList<Request>();
+
             for (FieldParser fieldExtractor : fieldExtra) {
                 if (fieldExtractor.selectSource(obj, page, html, isRaw)) {
                     Field field = fieldExtractor.getField();
