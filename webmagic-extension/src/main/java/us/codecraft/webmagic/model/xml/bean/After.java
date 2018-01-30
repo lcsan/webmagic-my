@@ -22,7 +22,7 @@ public class After {
         ScriptEngineManager factory = new ScriptEngineManager();
         ScriptEngine engine = factory.getEngineByName("groovy");
         try {
-            engine.eval("def after(page,obj){" + source + "}");
+            engine.eval(source);
         } catch (ScriptException e) {
             e.printStackTrace();
         }
