@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spider>
+	<site>
+	    <!-- 域名 -->
+		<domain>matmatch</domain>
+		<!-- 浏览器标识 -->
+		<userAgent>
+		  <![CDATA[
+		      Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36 QIHU 360SE
+			]]>
+		</userAgent>
+		<!-- 页面编码 -->
+		<charset>UTF-8</charset>
+		<!-- 任务休眠时间 -->
+		<sleepTime>1000</sleepTime>
+		<!-- 立即重试次数 -->
+		<retryTimes>3</retryTimes>
+		<!-- 队尾重试次数 -->
+		<cycleRetryTimes>1</cycleRetryTimes>
+		<!-- 重试间隔 -->
+		<retrySleepTime>200</retrySleepTime>
+		<!-- 请求超时时间 -->
+		<timeout>30000</timeout>
+		<!-- 是否GZIP压缩 -->
+		<useGzip>true</useGzip>
+		<!-- 禁止cookie管理 -->
+		<disableCookieManagement>false</disableCookieManagement>
+		<!-- 下载线程数 -->
+		<threadSize>10</threadSize>
+		<!-- 定时任务，是否重置历史爬取url -->
+		<resetQueue>false</resetQueue>
+		<!-- 是否启动优先级设置 -->
+		<usePriority>true</usePriority>
+		<!-- 是否使用redis -->
+		<useRedis>false</useRedis>
+		<!-- 是否用database -->
+		<useDb>false</useDb>
+		<!-- 要爬取的地址 -->
+		<url>
+            <![CDATA[                
+				https://matmatch.com/search
+            ]]>
+		</url>
+		<acceptStatCode>200</acceptStatCode>
+
+		<!-- 字符串格式 -->
+		<!-- <cookie> <![CDATA[ __guid=26936763.670147605910933600.1510325694223.3628; 
+			monitor_count=1; __utma=55973678.1155684392.1510325696.1510325696.1510325696.1; 
+			__utmc=55973678; __utmz=55973678.1510325696.1.1.utmccn=(organic)|utmcsr=baidu|utmctr=|utmcmd=organic 
+			]]> </cookie> <header> <![CDATA[ Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8 
+			Accept-Encoding:gzip, deflate, sdch Accept-Language:zh-CN,zh;q=0.8 Cache-Control:max-age=0 
+			Connection:keep-alive Cookie:__guid=26936763.670147605910933600.1510325694223.3628; 
+			monitor_count=1; __utma=55973678.1155684392.1510325696.1510325696.1510325696.1; 
+			__utmc=55973678; __utmz=55973678.1510325696.1.1.utmccn=(organic)|utmcsr=baidu|utmctr=|utmcmd=organic 
+			Host:www.tutorialspoint.com Upgrade-Insecure-Requests:1 User-Agent:Mozilla/5.0 
+			(Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 
+			Safari/537.36 ]]> </header> -->
+		<!-- 多个值","分隔 -->
+
+		<!-- 对象格式 -->
+		<!-- <cookies> <cookie key="a">1</cookie> <cookie key="c">2</cookie> <cookie 
+			key="c">3</cookie> </cookies> <headers> <header key="e">4</header> <header 
+			key="f">5</header> <header key="g">6</header> </headers> <urls> <url>f</url> 
+			<url>e</url> <url>v</url> </urls> <acceptStatCodes> <acceptStatCode>200</acceptStatCode> 
+			</acceptStatCodes> -->
+
+		<!-- <requests> <request> <url>aa</url> <method>post</method> <requestBody>sss</requestBody> 
+			<priority>11</priority> <cookie> <![CDATA[ __guid=26936763.670147605910933600.1510325694223.3628; 
+			monitor_count=1; __utma=55973678.1155684392.1510325696.1510325696.1510325696.1; 
+			__utmc=55973678; __utmz=55973678.1510325696.1.1.utmccn=(organic)|utmcsr=baidu|utmctr=|utmcmd=organic 
+			]]> </cookie> <header> <![CDATA[ Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8 
+			Accept-Encoding:gzip, deflate, sdch Accept-Language:zh-CN,zh;q=0.8 Cache-Control:max-age=0 
+			Connection:keep-alive Cookie:__guid=26936763.670147605910933600.1510325694223.3628; 
+			monitor_count=1; __utma=55973678.1155684392.1510325696.1510325696.1510325696.1; 
+			__utmc=55973678; __utmz=55973678.1510325696.1.1.utmccn=(organic)|utmcsr=baidu|utmctr=|utmcmd=organic 
+			Host:www.tutorialspoint.com Upgrade-Insecure-Requests:1 User-Agent:Mozilla/5.0 
+			(Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 
+			Safari/537.36 ]]> </header> 对象格式 <cookies> <cookie key="a">1</cookie> <cookie 
+			key="c">2</cookie> <cookie key="c">3</cookie> </cookies> <headers> <header 
+			key="e">4</header> <header key="f">5</header> <header key="g">6</header> 
+			</headers> </request> </requests> -->
+	</site>
+	<redis>
+		<host>127.0.0.1</host>
+		<port>6379</port>
+		<password></password>
+		<timeout></timeout>
+		<dbIndex></dbIndex>
+	</redis>
+	<database>
+		<driver>com.mysql.jdbc.Driver</driver>
+		<url>
+		  <![CDATA[
+		      jdbc:mysql://ip:port/table?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
+		  ]]>
+		</url>
+		<userName>111</userName>
+		<password>222</password>
+		<initialSize>2</initialSize>
+		<minIdle>1</minIdle>
+		<maxActive>5</maxActive>
+		<maxIdleTime>120</maxIdleTime>
+		<idleConnectionTestPeriod>60</idleConnectionTestPeriod>
+		<maxPoolSize>15</maxPoolSize>
+		<minPoolSize>10</minPoolSize>
+		<initialPoolSize>3</initialPoolSize>
+	</database>
+	<pipeline>
+	    <![CDATA[
+	       println(obj);
+	     ]]>
+	</pipeline>
+	<models>
+		<model>
+			<bean name="Home">
+                <field name="url" transmitflag="true">
+                    <extract expression=""  source="Url"/>
+                </field>
+                <after>
+                    <![CDATA[
+                    import us.codecraft.webmagic.*;
+                    import us.codecraft.webmagic.model.HttpRequestBody;
+                    
+                    def after(page,obj){
+						def cookie = page.getHeaders().get("Set-Cookie");
+						def lf = cookie =~ /^.*XSRF-TOKEN=([^;]+).*$/;
+	                    lf.matches();
+	                    cookie = lf[0][1];
+						// 构造第一页数据
+						Request req = new Request("https://matmatch.com/searchapi/materials");
+						req.setMethod("POST");						
+						req.setRequestBody(HttpRequestBody.json("{\"pageNumber\":\"1\",\"filters\":[],\"groupingEnabled\":false}", "UTF-8"));						
+						req.addHeader("Referer", "https://matmatch.com/search");
+						req.addHeader("X-XSRF-TOKEN", cookie);
+						req.putExtra("token", cookie);
+						page.addTargetRequest(req);
+					}
+					]]>
+                </after>
+			</bean>
+			<tagurl region="//xxx">
+				<expression>https://matmatch.com/search</expression>
+			</tagurl>
+		</model>
+		<model>
+			<bean name="Search">
+				<field name="pageCount" type="int">
+					<extract expression="$..pageCount" type="json"/>
+				</field>
+				<field name="urlList" type="list" foundflag="true">
+					<extract expression="json('$..searchResults[*].urlParam').replace('^(.*?)$','https://matmatch.com/materials/$1')"/>
+				</field>			
+                <after>
+                    <![CDATA[
+                    import us.codecraft.webmagic.*;
+                    import us.codecraft.webmagic.model.HttpRequestBody;
+                    
+	                def after(page,obj){
+						def token = page.getRequest().getExtra("token");  
+						if(token){
+							println obj.pageCount;
+							for(i in 2..obj.pageCount){
+								Request req = new Request("https://matmatch.com/searchapi/materials");
+								req.setMethod("POST");						
+								req.setRequestBody(HttpRequestBody.json("{\"pageNumber\":\""+i+"\",\"filters\":[],\"groupingEnabled\":false}", "UTF-8"));						
+								req.addHeader("Referer", "https://matmatch.com/search");
+								req.addHeader("X-XSRF-TOKEN", token);
+								page.addTargetRequest(req);
+							}
+						}
+					}					
+                    ]]>
+                </after>
+			</bean>
+            <tagurl>
+                <expression>https://matmatch.com/searchapi/materials</expression>
+            </tagurl>
+		</model>		
+       <model>
+            <bean name="metals">
+				<field name="id" transmitflag="true">
+					<extract expression="/(.*?)-"  source="Url"/>
+				</field>
+                <field name="body">
+                    <extract expression="*"/>
+                </field>
+                <after>
+                    <![CDATA[
+                    def after(page,obj){
+	                    if(!(obj.body ==~ /\s*/)){
+	                        def path = "./download/${obj.id}.html"
+	                        def file = new File(path);
+	                        file.getParentFile().mkdirs();
+	
+	                        file.withWriter('utf-8') { writer ->
+							  writer.writeLine obj.body
+							}
+	                    }
+                    }
+                    ]]>
+                </after>
+            </bean>
+            <tagurl region="//xxx">
+                <expression>https://matmatch.com/materials/[\w\W]+</expression>
+            </tagurl>
+        </model>
+	</models>
+	<!-- <task>
+		<delay>1000</delay>
+		<period>6000</period>
+		<atFixedRate>false</atFixedRate>
+	</task> -->
+</spider>
