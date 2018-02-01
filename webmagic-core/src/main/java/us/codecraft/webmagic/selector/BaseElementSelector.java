@@ -53,8 +53,7 @@ public abstract class BaseElementSelector implements Selector, ElementSelector {
 	 * @return
 	 */
 	private Document parse(String html) {
-		if (StringUtils.isNotBlank(html) && (html.startsWith("<tbody>") || html.startsWith("<tr>")
-				|| html.startsWith("<th>") || html.startsWith("<td>"))) {
+		if (StringUtils.isNotBlank(html) && html.matches("^<t(?:body|r|h|d)[>\\s][\\w\\W]+$")) {
 			html = "<table>" + html + "</table>";
 		}
 		return Jsoup.parse(html);
