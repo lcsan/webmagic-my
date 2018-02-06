@@ -43,21 +43,19 @@ public class FieldParser {
      * set field value
      * 
      * @param value
-     *            Object
-     * @return Object
+     *            result
      * @throws IllegalAccessException
      *             IllegalAccessException
      * @throws InvocationTargetException
      *             InvocationTargetException
      */
-    public Object setField(Object value) throws IllegalAccessException, InvocationTargetException {
+    public void setField(Object value) throws IllegalAccessException, InvocationTargetException {
         if (value == null) {
-            return value;
+            return;
         }
         // 子模板抽取
         value = executLeaf(value);
         field.setValue(value);
-        return value;
     }
 
     /**
@@ -99,6 +97,8 @@ public class FieldParser {
      *             Exception
      */
     public boolean selectSource(Object o, Page page, String html, boolean isRaw) throws Exception {
+        // 重置value
+        field.setValue(null);
         if (null == field.getExtract()) {
             return true;
         }
@@ -122,7 +122,7 @@ public class FieldParser {
         // 格式化解析
         value = getFormatterResut(value);
         // 解析结果赋值
-        value = setField(value);
+        setField(value);
         return true;
     }
 

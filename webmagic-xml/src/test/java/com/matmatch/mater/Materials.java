@@ -11,7 +11,6 @@ import us.codecraft.webmagic.model.OOSpider;
 import us.codecraft.webmagic.model.annotation.ExtractBy;
 import us.codecraft.webmagic.model.annotation.ExtractByUrl;
 import us.codecraft.webmagic.model.annotation.TargetUrl;
-import us.codecraft.webmagic.scheduler.RedisScheduler;
 
 @TargetUrl("https://matmatch.com/materials/*")
 public class Materials {
@@ -108,21 +107,23 @@ public class Materials {
         }
         buf.close();
 
-        OOSpider.create(
-                Site.me().setTimeOut(10000).setSleepTime(1000).setRetryTimes(3).setUseGzip(true).setUserAgent(
-                        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36"),
-                new ConsolePageModelPipeline(), Materials.class, Chemical.class, MaterialProperty.class,
-                MaterialPropertyLabel.class).setScheduler(new RedisScheduler("127.0.0.1")).thread(20)
-                .addUrl(list.toArray(new String[] {})).run();
-
         // OOSpider.create(
-        // Site.me().setUseGzip(true).setUserAgent(
+        // Site.me().setTimeOut(10000).setSleepTime(1000).setRetryTimes(3).setUseGzip(true).setUserAgent(
         // "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like
         // Gecko) Chrome/55.0.2883.87 Safari/537.36"),
-        // new ConsolePageModelPipeline2(), Materials.class, Chemical.class,
+        // new ConsolePageModelPipeline(), Materials.class, Chemical.class,
         // MaterialProperty.class,
-        // MaterialPropertyLabel.class)
-        // .test("https://matmatch.com/materials/aasx002-advanced-alloy-services-rene-80");
+        // MaterialPropertyLabel.class).setScheduler(new
+        // RedisScheduler("127.0.0.1")).thread(20)
+        // .addUrl(list.toArray(new String[] {})).run();
+
+        OOSpider.create(
+                Site.me().setUseGzip(true).setUserAgent(
+                        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36"),
+                new ConsolePageModelPipeline2(), Materials.class, Chemical.class, MaterialProperty.class,
+                MaterialPropertyLabel.class)
+                .test("https://matmatch.com/materials/aasx002-advanced-alloy-services-rene-80",
+                        "https://matmatch.com/materials/plana109-plansee-densimet-185-d185");
     }
 
 }
