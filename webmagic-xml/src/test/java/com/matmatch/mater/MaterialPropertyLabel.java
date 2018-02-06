@@ -2,12 +2,14 @@ package com.matmatch.mater;
 
 import java.util.List;
 
+import us.codecraft.webmagic.Page;
+import us.codecraft.webmagic.model.AfterExtractor;
 import us.codecraft.webmagic.model.annotation.ExtractBy;
 import us.codecraft.webmagic.model.annotation.Leaf;
 
 @Leaf
 @ExtractBy(value = "//tr", multi = true)
-public class MaterialPropertyLabel {
+public class MaterialPropertyLabel implements AfterExtractor {
 
     @ExtractBy(value = "//td[1]/span/text()", notNull = true)
     private String property;
@@ -21,8 +23,8 @@ public class MaterialPropertyLabel {
     @ExtractBy("//span[@class='ellipsis comment-with-more text-40']/allText()")
     private String tip;
 
-    @ExtractBy("//li/allText()")
-    private List<String> moreLabel;
+    @ExtractBy("//ul[@class='list-unstyled expandable margin-bottom-0']")
+    private List<MoreLabel> moreLabel;
 
     @ExtractBy("xpath('//span[@class='nowrap material-main-measurement']//span[@class='property-value']/text()').filter('—').replace('^([\\d.]+)—[\\d.]+$','$1')")
     private Double minValue;
@@ -58,7 +60,7 @@ public class MaterialPropertyLabel {
         return tip;
     }
 
-    public List<String> getMoreLabel() {
+    public List<MoreLabel> getMoreLabel() {
         return moreLabel;
     }
 
@@ -84,6 +86,13 @@ public class MaterialPropertyLabel {
 
     public String getTremUnit() {
         return tremUnit;
+    }
+
+    @Override
+    public void afterProcess(Page page) {
+        if (moreLabel.isEmpty()) {
+            moreLabel.add(new MoreLabel(minValue, maxValue, value, valueUnit, tremValue, tremUnit));
+        }
     }
 
 }
