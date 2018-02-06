@@ -11,6 +11,7 @@ import us.codecraft.webmagic.model.OOSpider;
 import us.codecraft.webmagic.model.annotation.ExtractBy;
 import us.codecraft.webmagic.model.annotation.ExtractByUrl;
 import us.codecraft.webmagic.model.annotation.TargetUrl;
+import us.codecraft.webmagic.scheduler.RedisScheduler;
 
 @TargetUrl("https://matmatch.com/materials/*")
 public class Materials {
@@ -96,7 +97,7 @@ public class Materials {
     }
 
     public static void main(String[] args) throws IOException {
-        FileReader fr = new FileReader("C:/Users/longchensan/Desktop/aa-1.txt");
+        FileReader fr = new FileReader("H:/1024/matmatch/matmatch.txt");
         BufferedReader buf = new BufferedReader(fr);
         String line = null;
         List<String> list = new ArrayList<String>();
@@ -107,23 +108,23 @@ public class Materials {
         }
         buf.close();
 
+        OOSpider.create(
+                Site.me().setTimeOut(30000).setSleepTime(500).setRetryTimes(3).setRetryTimes(1).setUseGzip(true)
+                        .setUserAgent(
+                                "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36"),
+                new ConsolePageModelPipeline(), Materials.class, Chemical.class, MaterialProperty.class,
+                MaterialPropertyLabel.class, MoreLabel.class).setScheduler(new RedisScheduler("127.0.0.1")).thread(20)
+                .addUrl(list.toArray(new String[] {})).run();
+
         // OOSpider.create(
-        // Site.me().setTimeOut(10000).setSleepTime(1000).setRetryTimes(3).setUseGzip(true).setUserAgent(
+        // Site.me().setUseGzip(true).setUserAgent(
         // "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like
         // Gecko) Chrome/55.0.2883.87 Safari/537.36"),
-        // new ConsolePageModelPipeline(), Materials.class, Chemical.class,
+        // new ConsolePageModelPipeline2(), Materials.class, Chemical.class,
         // MaterialProperty.class,
-        // MaterialPropertyLabel.class).setScheduler(new
-        // RedisScheduler("127.0.0.1")).thread(20)
-        // .addUrl(list.toArray(new String[] {})).run();
-
-        OOSpider.create(
-                Site.me().setUseGzip(true).setUserAgent(
-                        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36"),
-                new ConsolePageModelPipeline2(), Materials.class, Chemical.class, MaterialProperty.class,
-                MaterialPropertyLabel.class, MoreLabel.class)
-                .test("https://matmatch.com/materials/aasx002-advanced-alloy-services-rene-80",
-                        "https://matmatch.com/materials/plana109-plansee-densimet-185-d185");
+        // MaterialPropertyLabel.class, MoreLabel.class)
+        // .test("https://matmatch.com/materials/aasx002-advanced-alloy-services-rene-80",
+        // "https://matmatch.com/materials/plana109-plansee-densimet-185-d185");
     }
 
 }
