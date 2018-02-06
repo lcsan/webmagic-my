@@ -21,8 +21,8 @@ public class MaterialPropertyLabel {
     @ExtractBy("//span[@class='ellipsis comment-with-more text-40']/allText()")
     private String tip;
 
-    @ExtractBy("//li/allText()")
-    private List<String> moreLabel;
+    @ExtractBy("//ul[@class='list-unstyled expandable margin-bottom-0']")
+    private List<MoreLabel> moreLabel;
 
     @ExtractBy("xpath('//span[@class='nowrap material-main-measurement']//span[@class='property-value']/text()').filter('—').replace('^([\\d.]+)—[\\d.]+$','$1')")
     private Double minValue;
@@ -58,7 +58,7 @@ public class MaterialPropertyLabel {
         return tip;
     }
 
-    public List<String> getMoreLabel() {
+    public List<MoreLabel> getMoreLabel() {
         return moreLabel;
     }
 
