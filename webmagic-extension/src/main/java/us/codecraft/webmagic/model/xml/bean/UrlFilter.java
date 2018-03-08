@@ -16,114 +16,115 @@ import us.codecraft.webmagic.selector.Selector;
 
 public abstract class UrlFilter {
 
-    /**
-     * 表达式转规则
-     */
-    protected List<Pattern> urlPatterns = new ArrayList<Pattern>();
+	/**
+	 * 表达式转规则
+	 */
+	protected List<Pattern> urlPatterns = new ArrayList<Pattern>();
 
-    /**
-     * 抽取区域选择器
-     */
-    protected Selector urlRegionSelector;
+	/**
+	 * 抽取区域选择器
+	 */
+	protected Selector urlRegionSelector;
 
-    // 表达式列表
-    private List<String> expression = new ArrayList<String>();
+	// 表达式列表
+	private List<String> expression = new ArrayList<String>();
 
-    // 抽取区域
-    private String region;
+	// 抽取区域
+	private String region;
 
-    public UrlFilter() {
-        super();
-    }
+	public UrlFilter() {
+		super();
+	}
 
-    public UrlFilter(List<String> expression, String region) {
-        super();
-        this.expression = expression;
-        this.region = region;
-    }
+	public UrlFilter(List<String> expression, String region) {
+		super();
+		this.expression = expression;
+		this.region = region;
+	}
 
-    public String getRegion() {
-        return region;
-    }
+	public String getRegion() {
+		return region;
+	}
 
-    @XmlAttribute(name = "region")
-    public void setRegion(String region) {
-        this.region = region;
-        createUrlRegionSelector();
-    }
+	@XmlAttribute(name = "region")
+	public void setRegion(String region) {
+		this.region = region;
+	}
 
-    public List<String> getExpression() {
-        return expression;
-    }
+	public List<String> getExpression() {
+		return expression;
+	}
 
-    @XmlElement(name = "expression")
-    public void setExpression(List<String> expression) {
-        this.expression = expression;
-        // getUrlPatterns();
-    }
+	@XmlElement(name = "expression")
+	public void setExpression(List<String> expression) {
+		this.expression = expression;
+	}
 
-    private void createUrlPatterns() {
-        for (String s : expression) {
-            if (StringUtils.isBlank(s)) {
-                urlPatterns.add(Pattern.compile("(.*)"));
-            } else {
-                urlPatterns.add(Pattern.compile("(" + s.replace(".", "\\.").replace("*", "[^\"'#]*").trim() + ")"));
-            }
-        }
-    }
+	private void createUrlPatterns() {
+		for (String s : expression) {
+			if (StringUtils.isBlank(s)) {
+				urlPatterns.add(Pattern.compile("(.*)"));
+			} else {
+				urlPatterns.add(Pattern.compile("(" + s.replace(".", "\\.").replace("*", "[^\"'#]*").trim() + ")"));
+			}
+		}
+	}
 
-    public List<Pattern> getUrlPatterns() {
-        if (urlPatterns.isEmpty()) {
-            if (null != expression && !expression.isEmpty()) {
-                createUrlPatterns();
-            } else {
-                initUrlPatterns();
-            }
-        }
-        return urlPatterns;
-    }
+	public List<Pattern> getUrlPatterns() {
+		if (urlPatterns.isEmpty()) {
+			if (null != expression && !expression.isEmpty()) {
+				createUrlPatterns();
+			} else {
+				initUrlPatterns();
+			}
+		}
+		return urlPatterns;
+	}
 
-    private void createUrlRegionSelector() {
-        if (StringUtils.isBlank(region)) {
-            return;
-        }
-        // 匹配&&构造AndSelector选择器
-        List<Selector> selectors = getSelector("&&", region);
-        if (!selectors.isEmpty()) {
-            urlRegionSelector = new AndSelector(selectors);
-            return;
-        }
-        // 匹配||构造OrSelector选择器
-        selectors = getSelector("\\|\\|", region);
-        if (!selectors.isEmpty()) {
-            urlRegionSelector = new OrSelector(selectors);
-            return;
-        }
-        // 非逻辑选择器
-        urlRegionSelector = new MixeSelector(region);
-    }
+	private void createUrlRegionSelector() {
+		if (StringUtils.isBlank(region)) {
+			return;
+		}
+		// 匹配&&构造AndSelector选择器
+		List<Selector> selectors = getSelector("&&", region);
+		if (!selectors.isEmpty()) {
+			urlRegionSelector = new AndSelector(selectors);
+			return;
+		}
+		// 匹配||构造OrSelector选择器
+		selectors = getSelector("\\|\\|", region);
+		if (!selectors.isEmpty()) {
+			urlRegionSelector = new OrSelector(selectors);
+			return;
+		}
+		// 非逻辑选择器
+		urlRegionSelector = new MixeSelector(region);
+	}
 
-    private List<Selector> getSelector(String regex, String expr) {
-        List<Selector> selectors = new ArrayList<Selector>();
-        if (expr.matches("^.*?\\s" + regex + "\\s.*?$")) {
-            String[] strs = expr.split("\\s" + regex + "\\s");
-            for (String str : strs) {
-                selectors.add(new MixeSelector(str));
-            }
-        }
-        return selectors;
-    }
+	private List<Selector> getSelector(String regex, String expr) {
+		List<Selector> selectors = new ArrayList<Selector>();
+		if (expr.matches("^.*?\\s" + regex + "\\s.*?$")) {
+			String[] strs = expr.split("\\s" + regex + "\\s");
+			for (String str : strs) {
+				selectors.add(new MixeSelector(str));
+			}
+		}
+		return selectors;
+	}
 
-    public Selector getUrlRegionSelector() {
-        return urlRegionSelector;
-    }
+	public Selector getUrlRegionSelector() {
+		if (StringUtils.isNotBlank(region) && null == urlRegionSelector) {
+			createUrlRegionSelector();
+		}
+		return urlRegionSelector;
+	}
 
-    public abstract void initUrlPatterns();
+	public abstract void initUrlPatterns();
 
-    @Override
-    public String toString() {
-        return "UrlFilter [expression=" + expression + ", region=" + region + ", urlPatterns=" + urlPatterns
-                + ", urlRegionSelector=" + urlRegionSelector + "]";
-    }
+	@Override
+	public String toString() {
+		return "UrlFilter [expression=" + expression + ", region=" + region + ", urlPatterns=" + urlPatterns
+				+ ", urlRegionSelector=" + urlRegionSelector + "]";
+	}
 
 }
