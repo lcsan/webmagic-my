@@ -10,12 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import us.codecraft.webmagic.Page;
-import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.model.PageModelExtractor;
 import us.codecraft.webmagic.model.formatter.ObjectFormatter;
 import us.codecraft.webmagic.model.xml.bean.Field;
 import us.codecraft.webmagic.model.xml.bean.Format;
-import us.codecraft.webmagic.selector.PlainText;
 
 public class FieldParser {
     private static final Logger LOGGER = LoggerFactory.getLogger(FieldParser.class);
@@ -27,7 +25,7 @@ public class FieldParser {
     // 子模板解析工具类
     private PageModelList pageModelList;
 
-    private String url;
+    // private String url;
 
     private FieldParser(Field field, PageModelList pageModelList) {
         this.field = field;
@@ -49,13 +47,13 @@ public class FieldParser {
      * @throws InvocationTargetException
      *             InvocationTargetException
      */
-    public void setField(Object value) throws IllegalAccessException, InvocationTargetException {
+    public Object setField(Page page, Object value) throws IllegalAccessException, InvocationTargetException {
         if (value == null) {
-            return;
+            return null;
         }
         // 子模板抽取
-        value = executLeaf(value);
-        field.setValue(value);
+        return executLeaf(page, value);
+        // field.setValue(value);
     }
 
     /**
@@ -65,7 +63,7 @@ public class FieldParser {
      *            Object
      * @return Object
      */
-    private Object executLeaf(Object value) {
+    private Object executLeaf(Page page, Object value) {
         // 子模板抽取
         PageModelExtractor pageModelExtractor = null;
 
@@ -76,43 +74,47 @@ public class FieldParser {
             pageModelExtractor = pageModelList.getPageModelExtractor(field.getLeafid());
         }
         if (null != pageModelExtractor) {
-            return pageModelExtractor.process(getPage(value.toString()));
+            return pageModelExtractor.process(getPage(page, value.toString()));
         }
         return value;
     }
 
     /**
-     * field parse interface
+     * 挨个解析Field
      * 
      * @param o
-     *            result Object
+     *            用于脚本对象内取值
      * @param page
-     *            Page
+     *            待解析页面
      * @param html
-     *            String
+     *            直接解析的文本
      * @param isRaw
-     *            boolean
-     * @return boolean
+     *            是否直接解析的文本
+     * @return [boolean error,Object value]
      * @throws Exception
-     *             Exception
+     *             异常
      */
-    public boolean selectSource(Object o, Page page, String html, boolean isRaw) throws Exception {
-        // 重置value
-        field.setValue(null);
+    public List<Object> selectSource(Object o, Page page, String html, boolean isRaw) throws Exception {
+
+        List<Object> list = new ArrayList<Object>();
         if (null == field.getExtract()) {
-            return true;
+            list.add(true);
+            list.add(null);
+            return list;
         }
-        // 往下传递
-        this.url = page.getUrl().get();
         // 选择器结果解析
         Object value = xmlExtractParser.getSelectResult(page, html, isRaw);
         // 设置了为null的则直接退出解析
         if (value == null) {
             if (field.getExtract().isNotNull()) {
                 LOGGER.error("Value of field cont not be null .[url:{} field:{}]", page.getUrl(), field.getName());
-                return false;
+                list.add(false);
+                list.add(null);
+                return list;
             }
-            return true;
+            list.add(true);
+            list.add(null);
+            return list;
         }
         Format format = field.getFormat();
         // xml全局format格式化
@@ -122,8 +124,10 @@ public class FieldParser {
         // 格式化解析
         value = getFormatterResut(value);
         // 解析结果赋值
-        setField(value);
-        return true;
+        value = setField(page, value);
+        list.add(true);
+        list.add(value);
+        return list;
     }
 
     /**
@@ -271,11 +275,12 @@ public class FieldParser {
      *            String
      * @return Page
      */
-    private Page getPage(String value) {
+    private Page getPage(Page pg, String value) {
+        // 理论上这些属性应该是只读的，所以这里弱引用，如果存在改值情况，这里则不能这么操作
         Page page = new Page();
         page.setRawText(value);
-        page.setRequest(new Request(url));
-        page.setUrl(PlainText.create(url));
+        page.setRequest(pg.getRequest());
+        page.setUrl(pg.getUrl());
         return page;
     }
 
