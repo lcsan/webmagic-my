@@ -233,7 +233,7 @@ public class FieldParser {
      */
     private Object convert(String value, ObjectFormatter<?> objFormatter) throws Exception {
         try {
-            if (null != objFormatter && null != value) {
+            if (null != objFormatter && null != value && !"".equals(value)) {
                 Object format = objFormatter.format(value);
                 return format;
             }

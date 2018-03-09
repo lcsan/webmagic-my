@@ -43,8 +43,6 @@ public class Propretys implements AfterExtractor {
     private String type;
     private Boolean temperatureDependent;
 
-    private Double vmin;
-    private Double vmax;
     private Double tmin;
     private Double tmax;
 
@@ -88,12 +86,12 @@ public class Propretys implements AfterExtractor {
         return temperatureDependent;
     }
 
-    public Double getVmin() {
-        return vmin;
+    public Double getMin() {
+        return min;
     }
 
-    public Double getVmax() {
-        return vmax;
+    public Double getMax() {
+        return max;
     }
 
     public Double getTmin() {
@@ -106,8 +104,6 @@ public class Propretys implements AfterExtractor {
 
     @Override
     public void afterProcess(Page page) {
-        vmin = min;
-        vmax = max;
         tmin = temperature;
         tmax = temperature;
         Start start = (Start) page.getRequest().getExtra("mmaterialProperty");
@@ -124,10 +120,10 @@ public class Propretys implements AfterExtractor {
         } else {
             for (Proprety proprety : propretys) {
                 if (null != proprety.getMin()) {
-                    vmin = Math.min(vmin, proprety.getMin());
+                    min = Math.min(min, proprety.getMin());
                 }
                 if (null != proprety.getMax()) {
-                    vmax = Math.max(vmax, proprety.getMax());
+                    max = Math.max(max, proprety.getMax());
                 }
                 if (null != proprety.getTemperature()) {
                     tmin = Math.min(tmin, proprety.getTemperature());
