@@ -22,10 +22,10 @@ public class Propretys implements AfterExtractor {
     @ExtractBy("//ul[@class='list-unstyled expandable margin-bottom-0']")
     private List<Proprety> propretys;
 
-    @ExtractBy("xpath('//span[@class='nowrap material-main-measurement']//span[@class='property-value']/text()').filter('^[^—]+$') || xpath('//span[@class='nowrap material-main-measurement']//span[@class='property-value']/text()').filter('—').replace('^([\\d.]+)—[\\d.]+$','$1')")
+    @ExtractBy("xpath('//span[@class='nowrap material-main-measurement']//span[@class='property-value']/text()').filter('^[^—]+$') || xpath('//span[@class='nowrap material-main-measurement']//span[@class='property-value']/text()').filter('—').replace('^([\\d.E+-]+)—[\\d.E+-]+$','$1')")
     private Double min;
 
-    @ExtractBy("xpath('//span[@class='nowrap material-main-measurement']//span[@class='property-value']/text()').filter('^[^—]+$') || xpath('//span[@class='nowrap material-main-measurement']//span[@class='property-value']/text()').filter('—').replace('^[\\d.]+—([\\d.]+)$','$1')")
+    @ExtractBy("xpath('//span[@class='nowrap material-main-measurement']//span[@class='property-value']/text()').filter('^[^—]+$') || xpath('//span[@class='nowrap material-main-measurement']//span[@class='property-value']/text()').filter('—').replace('^[\\d.E+-]+—([\\d.E+-]+)$','$1')")
     private Double max;
 
     @ExtractBy("//span[@class='nowrap material-main-measurement']//span[2]/text()")

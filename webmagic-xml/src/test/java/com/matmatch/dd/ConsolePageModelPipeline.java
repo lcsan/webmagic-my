@@ -1,4 +1,4 @@
-package com.matmatch.mater;
+package com.matmatch.dd;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,12 +14,12 @@ public class ConsolePageModelPipeline implements PageModelPipeline<Object> {
 
     @Override
     public void process(Object t, Task task) {
-        if (t instanceof Materials) {
+        if (t instanceof Material) {
             String json = JSON.toJSONString(t);
-            Materials materials = (Materials) t;
+            System.out.println(json);
+            Material materials = (Material) t;
             try {
-                FileUtils.writeStringToFile(new File("H:/matmatch.com/" + materials.getUrlParam() + ".txt"), json,
-                        "UTF-8");
+                FileUtils.writeStringToFile(new File("H:/mt/" + materials.getUrlParam() + ".txt"), json, "UTF-8");
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -9,11 +9,11 @@ import org.apache.commons.io.FileUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.matmatch.mater.ConsolePageModelPipeline2;
 
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.model.AfterExtractor;
+import us.codecraft.webmagic.model.ConsolePageModelPipeline;
 import us.codecraft.webmagic.model.OOSpider;
 import us.codecraft.webmagic.model.annotation.ExtractBy;
 import us.codecraft.webmagic.model.annotation.TargetUrl;
@@ -60,7 +60,7 @@ public class Home2 implements AfterExtractor {
         OOSpider.create(
                 Site.me().setUseGzip(true).setUserAgent(
                         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36"),
-                new ConsolePageModelPipeline2(), Home2.class, Home3.class).test("https://matmatch.com/search");
+                new ConsolePageModelPipeline(), Home2.class, Home3.class).test("https://matmatch.com/search");
         File fe = new File("H:/matmatch.com");
         if (fe.isDirectory()) {
             File[] fes = fe.listFiles();

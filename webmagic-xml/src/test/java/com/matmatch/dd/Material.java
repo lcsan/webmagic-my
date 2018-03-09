@@ -3,15 +3,17 @@ package com.matmatch.dd;
 import java.util.List;
 
 import com.alibaba.fastjson.JSON;
-import com.matmatch.mater.ConsolePageModelPipeline2;
+import com.alibaba.fastjson.JSONObject;
 
+import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
+import us.codecraft.webmagic.model.AfterExtractor;
 import us.codecraft.webmagic.model.OOSpider;
 import us.codecraft.webmagic.model.annotation.ExtractBy;
 import us.codecraft.webmagic.model.annotation.TargetUrl;
 
 @TargetUrl(value = "https://matmatch.com/materials/*", sourceRegion = "xxx")
-public class Material {
+public class Material implements AfterExtractor {
 
     @ExtractBy("//div[@class='breadcrumbs']/a[1]/text()")
     private String firstLevelCategory;
@@ -45,6 +47,24 @@ public class Material {
 
     @ExtractBy("//div[@class='text-hint margin-top-2 text-small']/text()")
     private String propretyText;
+
+    @ExtractBy("//a[@class='tag tag-float tag-application app-link']/text()")
+    private List<String> applications;
+
+    @ExtractBy("xpath('//section[@class='content-section']').filter('技术性')")
+    private String technological;
+
+    private String id;
+    private String name;
+    private Boolean featured;
+    private Boolean group;
+    private Long groupSize;
+    private Long supplierId;
+    private String supplierName;
+    private Long matmatchRank;
+    private List<String> extraColumns;
+    private String supplierUrlParam;
+    private String urlParam;
 
     public List<Composition> getComposition() {
         return composition;
@@ -90,16 +110,87 @@ public class Material {
         return propretys;
     }
 
+    public List<String> getApplications() {
+        return applications;
+    }
+
+    public String getTechnological() {
+        return technological;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Boolean getFeatured() {
+        return featured;
+    }
+
+    public Boolean getGroup() {
+        return group;
+    }
+
+    public Long getGroupSize() {
+        return groupSize;
+    }
+
+    public Long getSupplierId() {
+        return supplierId;
+    }
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public Long getMatmatchRank() {
+        return matmatchRank;
+    }
+
+    public List<String> getExtraColumns() {
+        return extraColumns;
+    }
+
+    public String getSupplierUrlParam() {
+        return supplierUrlParam;
+    }
+
+    public String getUrlParam() {
+        return urlParam;
+    }
+
     @Override
     public String toString() {
         return JSON.toJSONString(this);
     }
 
+    @Override
+    public void afterProcess(Page page) {
+        JSONObject json = (JSONObject) page.getRequest().getExtra("json");
+        if (null != json) {
+            id = json.getString("id");
+            name = json.getString("name");
+            featured = json.getBoolean("featured");
+            group = json.getBoolean("group");
+            groupSize = json.getLong("groupSize");
+            supplierId = json.getLong("supplierId");
+            supplierName = json.getString("supplierName");
+            matmatchRank = json.getLong("matmatchRank");
+            extraColumns = (List<String>) json.get("extraColumns");
+            supplierUrlParam = json.getString("supplierUrlParam");
+            urlParam = json.getString("urlParam");
+        }
+    }
+
     public static void main(String args[]) {
+
         OOSpider.create(
                 Site.me().setUseGzip(true).setTimeOut(20000).setRetryTimes(3).setUserAgent(
                         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36"),
-                new ConsolePageModelPipeline2(), Material.class, Composition.class, Propretys.class, Propretys.class,
-                Proprety.class).addUrl("https://matmatch.com/materials/vdmm022-vdm-metals-vdm-alloy-825").run();
+                new ConsolePageModelPipeline(), Material.class, Composition.class, Propretys.class, Propretys.class,
+                Proprety.class).addUrl("https://matmatch.com/materials/kmex004-kme-uns-c51900-r560").run();
     }
 }
