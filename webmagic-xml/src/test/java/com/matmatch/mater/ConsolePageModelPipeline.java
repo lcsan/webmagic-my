@@ -18,7 +18,8 @@ public class ConsolePageModelPipeline implements PageModelPipeline<Object> {
             String json = JSON.toJSONString(t);
             Materials materials = (Materials) t;
             try {
-                FileUtils.writeStringToFile(new File("H:/matmatch.com/" + materials.getPath() + ".txt"), json, "UTF-8");
+                FileUtils.writeStringToFile(new File("H:/matmatch.com/" + materials.getUrlParam() + ".txt"), json,
+                        "UTF-8");
             } catch (IOException e) {
                 e.printStackTrace();
             }

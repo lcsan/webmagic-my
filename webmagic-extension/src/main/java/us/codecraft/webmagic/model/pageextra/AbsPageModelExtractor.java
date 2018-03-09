@@ -297,6 +297,7 @@ public abstract class AbsPageModelExtractor implements PageModelExtractor {
             LOGGER.error("process single page error!,{}", e.getMessage());
         } catch (Exception e) {
             LOGGER.error("process single page error!,{}", e.getMessage());
+            e.printStackTrace();
         }
         return obj;
     }

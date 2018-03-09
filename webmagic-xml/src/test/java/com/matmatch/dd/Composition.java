@@ -1,5 +1,8 @@
 package com.matmatch.dd;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.model.AfterExtractor;
 import us.codecraft.webmagic.model.annotation.ExtractBy;
@@ -15,36 +18,74 @@ import us.codecraft.webmagic.model.annotation.Leaf;
 @ExtractBy(value = "//table[@class='width-100']//tr", multi = true)
 public class Composition implements AfterExtractor {
 
-	@ExtractBy(value = "//td/span[1]/text()", notNull = true)
-	private String element;
+    @ExtractBy(value = "//td/span[1]/text()", notNull = true)
+    private String symbol;
 
-	@ExtractBy("//td[2]/span/text()")
-	private Double minWeight;
+    @ExtractBy("//td[2]/span/text()")
+    private Double min;
 
-	@ExtractBy("//td[2]/span[2]/text()")
-	private Double maxWeight;
+    @ExtractBy("//td[2]/span[2]/text()")
+    private Double max;
 
-	public String getElement() {
-		return element;
-	}
+    private String category;
+    private String name;
+    private String label;
+    private String type;
+    private Boolean temperatureDependent;
+    private String unit = "%";
 
-	public Double getMinWeight() {
-		return minWeight;
-	}
+    public String getSymbol() {
+        return symbol;
+    }
 
-	public Double getMaxWeight() {
-		return maxWeight;
-	}
+    public Double getMin() {
+        return min;
+    }
 
-	@Override
-	public void afterProcess(Page page) {
-		Start mmaterialProperty = (Start) page.getRequest().getExtra("mmaterialProperty");
-		System.out.println(mmaterialProperty);
-	}
+    public Double getMax() {
+        return max;
+    }
 
-	@Override
-	public String toString() {
-		return "Chemical [element=" + element + ", minWeight=" + minWeight + ", maxWeight=" + maxWeight + "]";
-	}
+    public String getCategory() {
+        return category;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public Boolean getTemperatureDependent() {
+        return temperatureDependent;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    @Override
+    public void afterProcess(Page page) {
+        Start start = (Start) page.getRequest().getExtra("mmaterialProperty");
+        if (null != start) {
+            JSONObject json = start.getMap().get(symbol);
+            category = json.getString("category");
+            name = json.getString("name");
+            label = json.getString("label");
+            type = json.getString("type");
+            temperatureDependent = json.getBoolean("temperatureDependent");
+        }
+    }
+
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
+    }
 
 }

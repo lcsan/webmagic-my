@@ -1,11 +1,12 @@
 package us.codecraft.webmagic;
 
-import us.codecraft.webmagic.model.HttpRequestBody;
-import us.codecraft.webmagic.utils.Experimental;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+
+import us.codecraft.webmagic.model.HttpRequestBody;
+import us.codecraft.webmagic.utils.Experimental;
 
 /**
  * Object contains url to crawl.<br>
@@ -14,7 +15,7 @@ import java.util.Map;
  * @author code4crafter@gmail.com <br>
  * @since 0.1.0
  */
-public class Request implements Serializable {
+public class Request implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 2062192774891352043L;
 
@@ -41,12 +42,14 @@ public class Request implements Serializable {
     /**
      * Priority of the request.<br>
      * The bigger will be processed earlier. <br>
+     * 
      * @see us.codecraft.webmagic.scheduler.PriorityScheduler
      */
     private long priority;
 
     /**
-     * When it is set to TRUE, the downloader will not try to parse response body to text.
+     * When it is set to TRUE, the downloader will not try to parse response
+     * body to text.
      *
      */
     private boolean binaryContent = false;
@@ -67,9 +70,11 @@ public class Request implements Serializable {
     /**
      * Set the priority of request for sorting.<br>
      * Need a scheduler supporting priority.<br>
+     * 
      * @see us.codecraft.webmagic.scheduler.PriorityScheduler
      *
-     * @param priority priority
+     * @param priority
+     *            priority
      * @return this
      */
     @Experimental
@@ -113,6 +118,7 @@ public class Request implements Serializable {
 
     /**
      * The http method of the request. Get for default.
+     * 
      * @return httpMethod
      * @see us.codecraft.webmagic.utils.HttpConstant.Method
      * @since 0.5.0
@@ -135,12 +141,15 @@ public class Request implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
         Request request = (Request) o;
 
-        if (url != null ? !url.equals(request.url) : request.url != null) return false;
+        if (url != null ? !url.equals(request.url) : request.url != null)
+            return false;
         return method != null ? method.equals(request.method) : request.method == null;
     }
 
@@ -190,14 +199,27 @@ public class Request implements Serializable {
 
     @Override
     public String toString() {
-        return "Request{" +
-                "url='" + url + '\'' +
-                ", method='" + method + '\'' +
-                ", extras=" + extras +
-                ", priority=" + priority +
-                ", headers=" + headers +
-                ", cookies="+ cookies+
-                '}';
+        return "Request{" + "url='" + url + '\'' + ", method='" + method + '\'' + ", extras=" + extras + ", priority="
+                + priority + ", headers=" + headers + ", cookies=" + cookies + '}';
     }
 
+    @Override
+    public Request clone() {
+        Request request = new Request();
+        // 深层复制Extras，避免弱引用。其他对象不用写操作，因此不用深层clone
+        // 不保证内部Object的弱引用，也就是当Leaf时，可以多层传递对象，但是只能保证当前层往下层不复用。
+        Map<String, Object> target = new HashMap<String, Object>();
+        for (Entry<String, Object> entry : extras.entrySet()) {
+            target.put(entry.getKey(), entry.getValue());
+        }
+
+        request.setBinaryContent(binaryContent);
+        request.setCharset(charset);
+        request.setExtras(target);
+        request.setMethod(method);
+        request.setPriority(priority);
+        request.setRequestBody(requestBody);
+        request.setUrl(url);
+        return request;
+    }
 }
