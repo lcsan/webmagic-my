@@ -34,12 +34,12 @@ public class Eexample implements AfterExtractor {
     @Override
     public void afterProcess(Page page) {
         String token = (String) page.getRequest().getExtra("token");
-        Start mmaterialProperty = (Start) page.getRequest().getExtra("mmaterialProperty");
+        Start start = Common.getSTART();
 
         Object obj = page.getRequest().getExtra("json");
         JSONObject prajson = (null == obj ? null : (JSONObject) obj);
         if (count > 10000 && null != prajson) {
-            List<JSONObject> list = mmaterialProperty.getList();
+            List<JSONObject> list = start.getList();
             for (JSONObject json : list) {
                 JSONArray jsary = json.getJSONArray("units");
                 if (jsary.isEmpty()) {
@@ -55,7 +55,6 @@ public class Eexample implements AfterExtractor {
                     req.addHeader("Referer", "https://matmatch.com/search");
                     req.addHeader("X-XSRF-TOKEN", token);
                     req.putExtra("token", token);
-                    req.putExtra("mmaterialProperty", mmaterialProperty);
                     req.putExtra("json", js);
                     page.addTargetRequest(req);
                 } else {
@@ -78,7 +77,6 @@ public class Eexample implements AfterExtractor {
                         req.addHeader("Referer", "https://matmatch.com/search");
                         req.addHeader("X-XSRF-TOKEN", token);
                         req.putExtra("token", token);
-                        req.putExtra("mmaterialProperty", mmaterialProperty);
                         req.putExtra("json", js);
                         page.addTargetRequest(req);
                     }
@@ -99,7 +97,6 @@ public class Eexample implements AfterExtractor {
             req.addHeader("Referer", "https://matmatch.com/search");
             req.addHeader("X-XSRF-TOKEN", token);
             req.putExtra("token", token);
-            req.putExtra("mmaterialProperty", mmaterialProperty);
             page.addTargetRequest(req);
         }
     }

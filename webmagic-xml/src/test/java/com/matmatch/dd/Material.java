@@ -10,9 +10,10 @@ import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.model.AfterExtractor;
 import us.codecraft.webmagic.model.OOSpider;
 import us.codecraft.webmagic.model.annotation.ExtractBy;
+import us.codecraft.webmagic.model.annotation.ExtractByUrl;
 import us.codecraft.webmagic.model.annotation.TargetUrl;
 
-@TargetUrl(value = "https://matmatch.com/materials/*", sourceRegion = "xxx")
+@TargetUrl(value = "https://matmatch.com/materials/*")
 public class Material implements AfterExtractor {
 
     @ExtractBy("//div[@class='breadcrumbs']/a[1]/text()")
@@ -51,20 +52,30 @@ public class Material implements AfterExtractor {
     @ExtractBy("//a[@class='tag tag-float tag-application app-link']/text()")
     private List<String> applications;
 
-    @ExtractBy("xpath('//section[@class='content-section']').filter('技术性')")
+    @ExtractBy(value = "css('a.add-to-project-button','data-material-id')", notNull = true)
+    private String id;
+
+    @ExtractBy("css('a.add-to-project-button','data-material-name')")
+    private String name;
+
+    @ExtractBy("css('button.triggers-contact-supplier-popup','data-supplier-name') || xpath('span[@class='align-middle']/strong/text()')")
+    private String supplierName;
+
+    @ExtractBy("xpath('//a[@class='app-link link-to-enhance-with-search']/@href').replace('/suppliers/','')")
+    private String supplierUrlParam;
+
+    @ExtractBy("css('section.content-section').filter('^.*?(?:技术性|Technological properties).*?$')")
     private String technological;
 
-    private String id;
-    private String name;
-    private Boolean featured;
-    private Boolean group;
-    private Long groupSize;
+    @ExtractByUrl("([^/]+)$")
+    private String urlParam;
+
+    private Boolean featured = true;
+    private Boolean group = false;
+    private Long groupSize = 0l;
     private Long supplierId;
-    private String supplierName;
     private Long matmatchRank;
     private List<String> extraColumns;
-    private String supplierUrlParam;
-    private String urlParam;
 
     public List<Composition> getComposition() {
         return composition;
@@ -190,7 +201,10 @@ public class Material implements AfterExtractor {
         OOSpider.create(
                 Site.me().setUseGzip(true).setTimeOut(20000).setRetryTimes(3).setUserAgent(
                         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36"),
-                new ConsolePageModelPipeline(), Material.class, Composition.class, Propretys.class, Propretys.class,
-                Proprety.class).addUrl("https://matmatch.com/materials/kmex004-kme-uns-c51900-r560").run();
+                new ConsolePageModelPipeline(), Start.class, Material.class, Composition.class, Propretys.class,
+                Propretys.class, Proprety.class)
+                .addUrl("https://matmatch.com/search",
+                        "https://matmatch.com/materials/vdmm018-vdm-metals-vdm-alloy-718")
+                .run();
     }
 }

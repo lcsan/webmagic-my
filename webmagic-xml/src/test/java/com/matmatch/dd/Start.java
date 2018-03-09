@@ -16,7 +16,6 @@ import us.codecraft.webmagic.model.HttpRequestBody;
 import us.codecraft.webmagic.model.OOSpider;
 import us.codecraft.webmagic.model.annotation.ExtractBy;
 import us.codecraft.webmagic.model.annotation.TargetUrl;
-import us.codecraft.webmagic.scheduler.PriorityScheduler;
 import us.codecraft.webmagic.utils.HttpConstant.Method;
 
 @TargetUrl("https://matmatch.com/search")
@@ -55,7 +54,7 @@ public class Start implements AfterExtractor {
             map.put(json.getString("label"), json);
             list.add(json);
         }
-
+        Common.setSTART(this);
         Request req = new Request("https://matmatch.com/searchapi/materials/examples");
         req.setMethod(Method.POST);
         req.setRequestBody(HttpRequestBody.json(
@@ -64,8 +63,8 @@ public class Start implements AfterExtractor {
         req.addHeader("Referer", "https://matmatch.com/search");
         req.addHeader("X-XSRF-TOKEN", token);
         req.putExtra("token", token);
-        req.putExtra("mmaterialProperty", this);
         page.addTargetRequest(req);
+
     }
 
     public static void main(String[] args) {
@@ -73,8 +72,8 @@ public class Start implements AfterExtractor {
                 Site.me().setUseGzip(true).setTimeOut(20000).setRetryTimes(3).setUserAgent(
                         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36"),
                 new ConsolePageModelPipeline(), Start.class, Eexample.class, Searchs.class, Material.class,
-                Composition.class, Material.class, Proprety.class, Propretys.class)
-                .setScheduler(new PriorityScheduler()).thread(15).addUrl("https://matmatch.com/search").run();
+                Composition.class, Material.class, Proprety.class, Propretys.class).thread(15)
+                .addUrl("https://matmatch.com/search").run();
     }
 
 }

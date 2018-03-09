@@ -27,6 +27,9 @@ public class Composition implements AfterExtractor {
     @ExtractBy("//td[2]/span[2]/text()")
     private Double max;
 
+    @ExtractBy("//td[3]//span/text()")
+    private String more;
+
     private String category;
     private String name;
     private String label;
@@ -36,6 +39,10 @@ public class Composition implements AfterExtractor {
 
     public String getSymbol() {
         return symbol;
+    }
+
+    public String getMore() {
+        return more;
     }
 
     public Double getMin() {
@@ -72,7 +79,7 @@ public class Composition implements AfterExtractor {
 
     @Override
     public void afterProcess(Page page) {
-        Start start = (Start) page.getRequest().getExtra("mmaterialProperty");
+        Start start = Common.getSTART();
         if (null != start) {
             JSONObject json = start.getMap().get(symbol);
             category = json.getString("category");

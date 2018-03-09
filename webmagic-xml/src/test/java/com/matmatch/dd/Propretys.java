@@ -106,7 +106,7 @@ public class Propretys implements AfterExtractor {
     public void afterProcess(Page page) {
         tmin = temperature;
         tmax = temperature;
-        Start start = (Start) page.getRequest().getExtra("mmaterialProperty");
+        Start start = Common.getSTART();
         if (null != start) {
             JSONObject json = start.getMap().get(label);
             category = json.getString("category");
