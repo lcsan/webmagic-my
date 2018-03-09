@@ -7,10 +7,10 @@ import us.codecraft.webmagic.model.annotation.Leaf;
 @ExtractBy(value = "//li", multi = true)
 public class Proprety {
 
-    @ExtractBy("xpath('//span[1]/text()').filter('^[^—]+$') || xpath('//span[1]/text()').filter('—').replace('^([\\d.]+)—[\\d.]+$','$1')")
+    @ExtractBy("xpath('//span[1]/text()').filter('^[^—]+$') || xpath('//span[1]/text()').filter('—').replace('^([\\d.E+-]+)—[\\d.E+-]+$','$1')")
     private Double min;
 
-    @ExtractBy("xpath('//span[1]/text()').filter('^[^—]+$') || xpath('//span[1]/text()').filter('—').replace('^[\\d.]+—([\\d.]+)$','$1')")
+    @ExtractBy("xpath('//span[1]/text()').filter('^[^—]+$') || xpath('//span[1]/text()').filter('—').replace('^[\\d.E+-]+—([\\d.E+-]+)$','$1')")
     private Double max;
 
     @ExtractBy("//span[2]/text()")

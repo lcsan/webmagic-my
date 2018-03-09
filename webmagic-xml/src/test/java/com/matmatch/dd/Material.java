@@ -100,6 +100,6 @@ public class Material {
                 Site.me().setUseGzip(true).setTimeOut(20000).setRetryTimes(3).setUserAgent(
                         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36"),
                 new ConsolePageModelPipeline2(), Material.class, Composition.class, Propretys.class, Propretys.class,
-                Proprety.class).addUrl("https://matmatch.com/materials/vdmm022-vdm-metals-vdm-alloy-825").run();
+                Proprety.class).addUrl("https://matmatch.com/materials/wiam463790-din-3-3523-h24-flat").run();
     }
 }
