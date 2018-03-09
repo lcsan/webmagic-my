@@ -16,7 +16,7 @@ import us.codecraft.webmagic.model.HttpRequestBody;
 import us.codecraft.webmagic.model.OOSpider;
 import us.codecraft.webmagic.model.annotation.ExtractBy;
 import us.codecraft.webmagic.model.annotation.TargetUrl;
-import us.codecraft.webmagic.scheduler.PriorityScheduler;
+import us.codecraft.webmagic.scheduler.RedisPriorityScheduler;
 import us.codecraft.webmagic.utils.HttpConstant.Method;
 
 @TargetUrl("https://matmatch.com/search")
@@ -74,7 +74,8 @@ public class Start implements AfterExtractor {
                         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36"),
                 new ConsolePageModelPipeline(), Start.class, Eexample.class, Searchs.class, Material.class,
                 Composition.class, Material.class, Proprety.class, Propretys.class)
-                .setScheduler(new PriorityScheduler()).thread(15).addUrl("https://matmatch.com/search").run();
+                .setScheduler(new RedisPriorityScheduler("127.0.0.1")).thread(15).addUrl("https://matmatch.com/search")
+                .run();
     }
 
 }
