@@ -38,7 +38,7 @@ public class Field {
     private Class<?> clazz;
 
     // 结果值
-    private Object value;
+    // private Object value;
 
     // 子模板id
     private String leafid;
@@ -226,13 +226,13 @@ public class Field {
         this.saveflag = saveflag;
     }
 
-    public Object getValue() {
-        return value;
-    }
-
-    public void setValue(Object value) {
-        this.value = value;
-    }
+    // public Object getValue() {
+    // return value;
+    // }
+    //
+    // public void setValue(Object value) {
+    // this.value = value;
+    // }
 
     public java.lang.reflect.Field getField() {
         return field;
@@ -262,10 +262,9 @@ public class Field {
 
     @Override
     public String toString() {
-        return "Field [name=" + name + ", type=" + type + ", clazz=" + clazz + ", value=" + value + ", leafid=" + leafid
-                + ", foundflag=" + foundflag + ", transmitflag=" + transmitflag + ", saveflag=" + saveflag
-                + ", extract=" + extract + ", format=" + format + ", field=" + field + ", objectFormatter="
-                + objectFormatter + "]";
+        return "Field [name=" + name + ", type=" + type + ", clazz=" + clazz + ", leafid=" + leafid + ", foundflag="
+                + foundflag + ", transmitflag=" + transmitflag + ", saveflag=" + saveflag + ", extract=" + extract
+                + ", format=" + format + ", field=" + field + ", objectFormatter=" + objectFormatter + "]";
     }
 
 }

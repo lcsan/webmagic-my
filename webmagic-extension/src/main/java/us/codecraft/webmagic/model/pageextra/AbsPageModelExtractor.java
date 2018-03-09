@@ -84,13 +84,15 @@ public abstract class AbsPageModelExtractor implements PageModelExtractor {
      * handle field to obj
      * 
      * @param obj
-     *            result Object
+     *            最终解析的结果对象
      * @param field
-     *            field
+     *            当前解析的Field
+     * @param value
+     *            解析值value
      * @throws Exception
      *             Exception
      */
-    public abstract void handleField2ResultObj(Object obj, Field field) throws Exception;
+    public abstract void handleField2ResultObj(Object obj, Field field, Object value) throws Exception;
 
     /**
      * handle page after process page
@@ -245,12 +247,14 @@ public abstract class AbsPageModelExtractor implements PageModelExtractor {
             List<Request> requests = new ArrayList<Request>();
 
             for (FieldParser fieldExtractor : fieldExtra) {
-                if (fieldExtractor.selectSource(obj, page, html, isRaw)) {
+                List<Object> list = fieldExtractor.selectSource(obj, page, html, isRaw);
+                // 判断isNotNull条件是否符合了
+                if ((Boolean) list.get(0)) {
                     Field field = fieldExtractor.getField();
-                    Object value = field.getValue();
+                    Object value = list.get(1);
                     // 填充结果值
                     if (field.isSaveflag()) {
-                        handleField2ResultObj(obj, field);
+                        handleField2ResultObj(obj, field, value);
                     }
                     // 处理url发现结果
                     if (field.isFoundflag()) {
@@ -288,11 +292,11 @@ public abstract class AbsPageModelExtractor implements PageModelExtractor {
             }
             handleAfter(page, obj);
         } catch (IllegalAccessException e) {
-            LOGGER.error("process single page error!", e.getMessage());
+            LOGGER.error("process single page error!,{}", e.getMessage());
         } catch (InvocationTargetException e) {
-            LOGGER.error("process single page error!", e.getMessage());
+            LOGGER.error("process single page error!,{}", e.getMessage());
         } catch (Exception e) {
-            LOGGER.error("process single page error!", e.getMessage());
+            LOGGER.error("process single page error!,{}", e.getMessage());
         }
         return obj;
     }

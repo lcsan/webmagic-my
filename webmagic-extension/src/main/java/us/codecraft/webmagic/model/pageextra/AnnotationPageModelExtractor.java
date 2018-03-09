@@ -94,9 +94,9 @@ public class AnnotationPageModelExtractor extends AbsPageModelExtractor {
     }
 
     @Override
-    public void handleField2ResultObj(Object obj, us.codecraft.webmagic.model.xml.bean.Field field)
+    public void handleField2ResultObj(Object obj, us.codecraft.webmagic.model.xml.bean.Field field, Object value)
             throws IllegalArgumentException, IllegalAccessException {
-        field.getField().set(obj, field.getValue());
+        field.getField().set(obj, value);
     }
 
     @Override

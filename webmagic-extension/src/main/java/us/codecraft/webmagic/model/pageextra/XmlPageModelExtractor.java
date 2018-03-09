@@ -48,9 +48,9 @@ public class XmlPageModelExtractor extends AbsPageModelExtractor {
     }
 
     @Override
-    public void handleField2ResultObj(Object obj, Field field) {
+    public void handleField2ResultObj(Object obj, Field field, Object value) {
         BeanModel beanModel = (BeanModel) obj;
-        beanModel.put(field.getName(), field.getValue());
+        beanModel.put(field.getName(), value);
     }
 
     @Override
