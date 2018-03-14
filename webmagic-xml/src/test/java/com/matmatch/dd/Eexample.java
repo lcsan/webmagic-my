@@ -33,7 +33,7 @@ public class Eexample implements AfterExtractor {
 
     @Override
     public void afterProcess(Page page) {
-        String token = (String) page.getRequest().getExtra("token");
+        String token = Common.getToken();
         Start start = Common.getSTART();
 
         Object obj = page.getRequest().getExtra("json");
@@ -50,11 +50,10 @@ public class Eexample implements AfterExtractor {
                     req.setMethod(Method.POST);
                     req.setRequestBody(HttpRequestBody.json(
                             "{\"filters\":[" + js.toJSONString()
-                                    + "],\"exampleNames\":[\"firstLevelCategory\",\"secondLevelCategory\",\"thirdLevelCategory\"],\"pageSize\":100}",
+                                    + "],\"exampleNames\":[\"firstLevelCategory\",\"secondLevelCategory\",\"thirdLevelCategory\"],\"pageSize\":1000}",
                             "UTF-8"));
                     req.addHeader("Referer", "https://matmatch.com/search");
                     req.addHeader("X-XSRF-TOKEN", token);
-                    req.putExtra("token", token);
                     req.putExtra("json", js);
                     page.addTargetRequest(req);
                 } else {
@@ -72,11 +71,10 @@ public class Eexample implements AfterExtractor {
                         req.setMethod(Method.POST);
                         req.setRequestBody(HttpRequestBody.json(
                                 "{\"filters\":[" + js.toJSONString()
-                                        + "],\"exampleNames\":[\"firstLevelCategory\",\"secondLevelCategory\",\"thirdLevelCategory\"],\"pageSize\":100}",
+                                        + "],\"exampleNames\":[\"firstLevelCategory\",\"secondLevelCategory\",\"thirdLevelCategory\"],\"pageSize\":1000}",
                                 "UTF-8"));
                         req.addHeader("Referer", "https://matmatch.com/search");
                         req.addHeader("X-XSRF-TOKEN", token);
-                        req.putExtra("token", token);
                         req.putExtra("json", js);
                         page.addTargetRequest(req);
                     }
@@ -84,19 +82,18 @@ public class Eexample implements AfterExtractor {
             }
 
         }
-        int pagenum = count / 100;
+        int pagenum = count / 1000;
         pagenum = pagenum == 0 ? 1 : pagenum;
-        int total = 100;
+        int total = 10;
         total = total > pagenum ? pagenum : total;
         for (int i = 1; i <= total; i++) {
             Request req = new Request("https://matmatch.com/searchapi/materials");
             req.setMethod(Method.POST);
             req.setRequestBody(HttpRequestBody.json("{\"pageNumber\":\"" + i + "\",\"filters\":[" + filter
                     + (null == prajson ? "" : "," + prajson.toJSONString())
-                    + "],\"groupingEnabled\":false,\"pageSize\":100}", "UTF-8"));
+                    + "],\"groupingEnabled\":false,\"pageSize\":1000}", "UTF-8"));
             req.addHeader("Referer", "https://matmatch.com/search");
             req.addHeader("X-XSRF-TOKEN", token);
-            req.putExtra("token", token);
             page.addTargetRequest(req);
         }
     }

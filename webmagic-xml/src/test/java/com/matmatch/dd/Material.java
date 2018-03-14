@@ -1,17 +1,22 @@
 package com.matmatch.dd;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import us.codecraft.webmagic.Page;
+import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.model.AfterExtractor;
+import us.codecraft.webmagic.model.HttpRequestBody;
 import us.codecraft.webmagic.model.OOSpider;
 import us.codecraft.webmagic.model.annotation.ExtractBy;
 import us.codecraft.webmagic.model.annotation.ExtractByUrl;
 import us.codecraft.webmagic.model.annotation.TargetUrl;
+import us.codecraft.webmagic.utils.HttpConstant.Method;
 
 @TargetUrl(value = "https://matmatch.com/materials/*")
 public class Material implements AfterExtractor {
@@ -76,6 +81,9 @@ public class Material implements AfterExtractor {
     private Long supplierId;
     private Long matmatchRank;
     private List<String> extraColumns;
+
+    @ExtractBy("css('a','href').filter('/search\\?')")
+    private List<String> url;
 
     public List<Composition> getComposition() {
         return composition;
@@ -194,6 +202,25 @@ public class Material implements AfterExtractor {
             supplierUrlParam = json.getString("supplierUrlParam");
             urlParam = json.getString("urlParam");
         }
+        for (String string : url) {
+            try {
+                string = URLDecoder.decode(string, "UTF-8");
+                JSONObject js = Common.changeJSON(string);
+                js.put("groupingEnabled", false);
+                for (int i = 1; i <= 10; i++) {
+                    Request req = new Request("https://matmatch.com/searchapi/materials");
+                    req.setMethod(Method.POST);
+                    js.put("pageNumber", "" + i);
+                    req.setRequestBody(HttpRequestBody.json(js.toJSONString(), "UTF-8"));
+                    req.addHeader("Referer", "https://matmatch.com/search");
+                    req.addHeader("X-XSRF-TOKEN", Common.getToken());
+                    page.addTargetRequest(req);
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     public static void main(String args[]) {
@@ -201,7 +228,7 @@ public class Material implements AfterExtractor {
         OOSpider.create(
                 Site.me().setUseGzip(true).setTimeOut(20000).setRetryTimes(3).setUserAgent(
                         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36"),
-                new ConsolePageModelPipeline(), Start.class, Material.class, Composition.class, Propretys.class,
+                new MatPageModelPipeline(), Start.class, Material.class, Composition.class, Propretys.class,
                 Propretys.class, Proprety.class)
                 .addUrl("https://matmatch.com/search",
                         "https://matmatch.com/materials/vdmm018-vdm-metals-vdm-alloy-718")

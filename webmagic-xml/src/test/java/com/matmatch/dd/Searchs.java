@@ -32,8 +32,8 @@ public class Searchs implements AfterExtractor {
     @Override
     public void afterProcess(Page page) {
         json = JSON.parseObject(body);
-        page.addTargetRequest(new Request(url).addHeader("X-XSRF-TOKEN", (String) page.getRequest().getExtra("token"))
-                .putExtra("json", json).setPriority(2));
+        page.addTargetRequest(
+                new Request(url).addHeader("X-XSRF-TOKEN", Common.getToken()).putExtra("json", json).setPriority(2));
     }
 
 }

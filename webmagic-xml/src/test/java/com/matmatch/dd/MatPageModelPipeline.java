@@ -10,7 +10,7 @@ import com.alibaba.fastjson.JSON;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.pipeline.PageModelPipeline;
 
-public class ConsolePageModelPipeline implements PageModelPipeline<Object> {
+public class MatPageModelPipeline implements PageModelPipeline<Object> {
 
     @Override
     public void process(Object t, Task task) {
@@ -19,7 +19,7 @@ public class ConsolePageModelPipeline implements PageModelPipeline<Object> {
             System.out.println(json);
             Material materials = (Material) t;
             try {
-                FileUtils.writeStringToFile(new File("H:/mt/" + materials.getUrlParam() + ".txt"), json, "UTF-8");
+                FileUtils.writeStringToFile(new File("H:/mt1/" + materials.getUrlParam() + ".txt"), json, "UTF-8");
             } catch (IOException e) {
                 e.printStackTrace();
             }

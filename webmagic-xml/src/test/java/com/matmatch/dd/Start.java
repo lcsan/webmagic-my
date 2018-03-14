@@ -45,7 +45,7 @@ public class Start implements AfterExtractor {
     @Override
     public void afterProcess(Page page) {
         String token = page.getHeaders().get("Set-Cookie").get(0).replaceAll("^.*?XSRF-TOKEN=(.*?);.*?$", "$1");
-        System.out.println(token);
+        Common.setToken(token);
         map = new HashMap<String, JSONObject>();
         list = new ArrayList<JSONObject>();
         for (String string : list1) {
@@ -58,11 +58,10 @@ public class Start implements AfterExtractor {
         Request req = new Request("https://matmatch.com/searchapi/materials/examples");
         req.setMethod(Method.POST);
         req.setRequestBody(HttpRequestBody.json(
-                "{\"filters\":[],\"exampleNames\":[\"firstLevelCategory\",\"secondLevelCategory\",\"thirdLevelCategory\"],\"pageSize\":100}",
+                "{\"filters\":[],\"exampleNames\":[\"firstLevelCategory\",\"secondLevelCategory\",\"thirdLevelCategory\"],\"pageSize\":1000}",
                 "UTF-8"));
         req.addHeader("Referer", "https://matmatch.com/search");
         req.addHeader("X-XSRF-TOKEN", token);
-        req.putExtra("token", token);
         page.addTargetRequest(req);
 
     }
@@ -71,8 +70,8 @@ public class Start implements AfterExtractor {
         OOSpider.create(
                 Site.me().setUseGzip(true).setTimeOut(20000).setRetryTimes(3).setUserAgent(
                         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36"),
-                new ConsolePageModelPipeline(), Start.class, Eexample.class, Searchs.class, Material.class,
-                Composition.class, Material.class, Proprety.class, Propretys.class).thread(15)
+                new MatPageModelPipeline(), Start.class, Eexample.class, Searchs.class, Material.class,
+                Composition.class, Material.class, Proprety.class, Propretys.class).thread(50)
                 .addUrl("https://matmatch.com/search").run();
     }
 
