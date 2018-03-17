@@ -20,12 +20,15 @@ public class Propretys implements AfterExtractor {
     private String tip;
 
     @ExtractBy("//ul[@class='list-unstyled expandable margin-bottom-0']")
-    private List<Proprety> propretys;
+    private List<Proprety> materialProperty;
 
-    @ExtractBy("xpath('//span[@class='nowrap material-main-measurement']//span[@class='property-value']/text()').filter('^[^—]+$') || xpath('//span[@class='nowrap material-main-measurement']//span[@class='property-value']/text()').filter('—').replace('^([\\d.E+-]+)—[\\d.E+-]+$','$1')")
+    @ExtractBy("xpath('//span[@class='nowrap material-main-measurement']//span[@class='property-value']/text()').filter('^[^\\d.E+-—]+$')")
+    private String value;
+
+    @ExtractBy("xpath('//span[@class='nowrap material-main-measurement']//span[@class='property-value']/text()').filter('^[\\d.E+-]+$') || xpath('//span[@class='nowrap material-main-measurement']//span[@class='property-value']/text()').filter('—').replace('^([\\d.E+-]+)—[\\d.E+-]+$','$1')")
     private Double min;
 
-    @ExtractBy("xpath('//span[@class='nowrap material-main-measurement']//span[@class='property-value']/text()').filter('^[^—]+$') || xpath('//span[@class='nowrap material-main-measurement']//span[@class='property-value']/text()').filter('—').replace('^[\\d.E+-]+—([\\d.E+-]+)$','$1')")
+    @ExtractBy("xpath('//span[@class='nowrap material-main-measurement']//span[@class='property-value']/text()').filter('^[\\d.E+-]+$') || xpath('//span[@class='nowrap material-main-measurement']//span[@class='property-value']/text()').filter('—').replace('^[\\d.E+-]+—([\\d.E+-]+)$','$1')")
     private Double max;
 
     @ExtractBy("//span[@class='nowrap material-main-measurement']//span[2]/text()")
@@ -46,6 +49,10 @@ public class Propretys implements AfterExtractor {
     private Double tmin;
     private Double tmax;
 
+    public String getValue() {
+        return value;
+    }
+
     public String getLabel() {
         return label;
     }
@@ -54,8 +61,12 @@ public class Propretys implements AfterExtractor {
         return tip;
     }
 
-    public List<Proprety> getPropretys() {
-        return propretys;
+    public Double getTemperature() {
+        return temperature;
+    }
+
+    public List<Proprety> getMaterialProperty() {
+        return materialProperty;
     }
 
     public String getUnit() {
@@ -115,10 +126,10 @@ public class Propretys implements AfterExtractor {
             type = json.getString("type");
             temperatureDependent = json.getBoolean("temperatureDependent");
         }
-        if (propretys.isEmpty()) {
-            propretys.add(new Proprety(min, max, unit, temperature, temperatureUnit));
+        if (materialProperty.isEmpty()) {
+            materialProperty.add(new Proprety(min, max, unit, temperature, temperatureUnit));
         } else {
-            for (Proprety proprety : propretys) {
+            for (Proprety proprety : materialProperty) {
                 if (null != proprety.getMin()) {
                     min = Math.min(min, proprety.getMin());
                 }
