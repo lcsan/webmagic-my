@@ -88,6 +88,7 @@ public class Composition implements AfterExtractor {
             type = json.getString("type");
             temperatureDependent = json.getBoolean("temperatureDependent");
         }
+        this.unit = "%";
     }
 
     @Override
