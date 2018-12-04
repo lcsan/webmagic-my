@@ -26,9 +26,13 @@ public enum Type {
      */
     filter("filter", 6),
     /**
+     * split
+     */
+    split("split", 7),
+    /**
      * mixe
      */
-    mixe("mixe", 7);
+    mixe("mixe", 8);
 
     private int code;
 
