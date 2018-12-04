@@ -20,11 +20,13 @@ public class RegexSelector implements Selector {
 
     private Pattern regex;
 
-    private int group = 1;
+    private Integer[] group = { 1 };
 
-    public RegexSelector(String regexStr, int group) {
+    public RegexSelector(String regexStr, Integer... group) {
         this.compileRegex(regexStr);
-        this.group = group;
+        if (null != group) {
+            this.group = group;
+        }
     }
 
     private void compileRegex(String regexStr) {
@@ -48,16 +50,11 @@ public class RegexSelector implements Selector {
      */
     public RegexSelector(String regexStr) {
         this.compileRegex(regexStr);
-        if (regex.matcher("").groupCount() == 0) {
-            this.group = 0;
-        } else {
-            this.group = 1;
-        }
     }
 
     @Override
     public String select(String text) {
-        return selectGroup(text).get(group);
+        return selectGroup(text).get(group[0]);
     }
 
     @Override
@@ -65,7 +62,9 @@ public class RegexSelector implements Selector {
         List<String> strings = new ArrayList<String>();
         List<RegexResult> results = selectGroupList(text);
         for (RegexResult result : results) {
-            strings.add(result.get(group));
+            for (int gp : group) {
+                strings.add(result.get(gp));
+            }
         }
         return strings;
     }
