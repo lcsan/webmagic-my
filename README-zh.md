@@ -7,8 +7,9 @@
 官方网站[http://webmagic.io/](http://webmagic.io/)
 
 >基于webmagic 0.7.3，增强选择器，支持选择器链式执行：
-<br/>
-  混合选择器 MixeSelector，就是一个表达式执行器，支持xpath|css|json|regex|replace|filter|split各种选择器表达式化。
+
+<br/>  混合选择器 MixeSelector，就是一个表达式执行器，支持xpath|css|json|regex|replace|filter|split各种选择器表达式化。
+
 ```java
     // MixeSelector为默认选择器
     @ExtractBy("xpath('//a/text()').filter('\\S+').replace('^[\\s\\d、]+(.*?)[\\sABCD]+$','$1')")
