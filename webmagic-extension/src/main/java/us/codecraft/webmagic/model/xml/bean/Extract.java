@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -19,7 +20,9 @@ import us.codecraft.webmagic.selector.JsonPathSelector;
 import us.codecraft.webmagic.selector.MixeSelector;
 import us.codecraft.webmagic.selector.OrSelector;
 import us.codecraft.webmagic.selector.RegexSelector;
+import us.codecraft.webmagic.selector.ReplaceSelector;
 import us.codecraft.webmagic.selector.Selector;
+import us.codecraft.webmagic.selector.SplitSelector;
 import us.codecraft.webmagic.selector.Type;
 import us.codecraft.webmagic.selector.XpathSelector;
 
@@ -27,6 +30,9 @@ public class Extract {
 
     // 规则表达式
     private String expression;
+
+    // 多参数表达式
+    private String[] args;
 
     // 选择器类型
     private Type type = Type.mixe;
@@ -49,6 +55,7 @@ public class Extract {
 
     public Extract(ExtractBy ext) {
         this.setExpression(ext.value());
+        this.args = ext.args();
         this.setSelectorType(Type.valueOf(ext.type().name().toLowerCase()));
         this.setMulti(ext.multi());
         this.setSource(Source.valueOf(ext.source().name()));
@@ -87,6 +94,15 @@ public class Extract {
 
     public String getExpression() {
         return expression;
+    }
+
+    public String[] getArgs() {
+        return args;
+    }
+
+    @XmlElement(name = "args")
+    public void setArgs(String[] args) {
+        this.args = args;
     }
 
     @XmlAttribute(name = "expression")
@@ -191,8 +207,8 @@ public class Extract {
             if (StringUtils.isBlank(expr)) {
                 expr = ".*";
             }
-            if (tmpSelectorType.equals(Type.mixe)
-                    && !expr.toLowerCase(Locale.getDefault()).matches("^(?:xpath|css|json|regex|replace|filter).*$")) {
+            if (tmpSelectorType.equals(Type.mixe) && !expr.toLowerCase(Locale.getDefault())
+                    .matches("^(?:xpath|css|json|regex|replace|filter|split).*$")) {
                 return new RegexSelector(expr);
             }
         }
@@ -209,13 +225,25 @@ public class Extract {
      * @return Selector
      */
     private Selector getSelector(Type tmpSelectorType, String value) {
-        Selector select;
+        Selector select = null;
         switch (tmpSelectorType) {
         case css:
-            select = new CssSelector(value);
+            if (null == args || args.length == 0) {
+                select = new CssSelector(value);
+            } else {
+                select = new CssSelector(value, args[0]);
+            }
             break;
         case regex:
-            select = new RegexSelector(value);
+            if (null != args && args.length > 0) {
+                Integer[] argms = new Integer[args.length];
+                for (int i = 0; i < argms.length; i++) {
+                    argms[i] = Integer.parseInt(args[i]);
+                }
+                select = new RegexSelector(value, argms);
+            } else {
+                select = new RegexSelector(value);
+            }
             break;
         case xpath:
             select = new XpathSelector(value);
@@ -225,6 +253,16 @@ public class Extract {
             break;
         case filter:
             select = new FilterSelector(value);
+            break;
+        case replace:
+            if (null == args || args.length == 0) {
+                select = new ReplaceSelector(value, "$1");
+            } else {
+                select = new ReplaceSelector(value, args[0]);
+            }
+            break;
+        case split:
+            select = new SplitSelector(value);
             break;
         case mixe:
         default:
