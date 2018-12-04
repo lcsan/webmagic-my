@@ -8,7 +8,9 @@ import java.util.regex.Pattern;
 
 public class MixeSelector implements Selector {
 
-    private static final String METHOD_REGEX = "((?:xpath|regex|css|json|replace|filter)\\(['\"].*?['\"\\d]\\))\\.";
+    private static final String INIT_REGEX = "^(?:xpath|css|json|regex|replace|filter|split).*$";
+
+    private static final String METHOD_REGEX = "((?:xpath|regex|css|json|replace|filter|split)\\(['\"].*?['\"\\d]\\))\\.";
 
     private static final String HEADER_REGEX = "\\(.*?$";
 
@@ -41,7 +43,7 @@ public class MixeSelector implements Selector {
     }
 
     private void init() {
-        if (expression.toLowerCase(Locale.getDefault()).matches("^(?:xpath|css|json|regex|replace|filter).*$")) {
+        if (expression.toLowerCase(Locale.getDefault()).matches(INIT_REGEX)) {
             List<String> list = macher(METHOD_REGEX, expression + ".");
             for (String str : list) {
                 selectors.add(split(str));
@@ -90,6 +92,10 @@ public class MixeSelector implements Selector {
         case 6:
             expr = expr.replaceAll(CONTENT_REGEX, "$1");
             selector = new FilterSelector(expr);
+            break;
+        case 7:
+            expr = expr.replaceAll(CONTENT_REGEX, "$1");
+            selector = new SplitSelector(expr);
             break;
         default:
             selector = new XpathSelector(expr);
