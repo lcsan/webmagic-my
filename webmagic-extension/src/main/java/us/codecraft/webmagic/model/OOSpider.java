@@ -46,101 +46,101 @@ import us.codecraft.webmagic.processor.PageProcessor;
  */
 public class OOSpider<T> extends Spider {
 
-	private ModelPageProcessor modelPageProcessor;
+    private ModelPageProcessor modelPageProcessor;
 
-	private ModelPipeline modelPipeline;
+    private ModelPipeline modelPipeline;
 
-	// private PageModelPipeline pageModelPipeline;
+    // private PageModelPipeline pageModelPipeline;
 
-	private List<String> pageModelClasses = new ArrayList<String>();
+    private List<String> pageModelClasses = new ArrayList<String>();
 
-	protected OOSpider(ModelPageProcessor modelPageProcessor) {
-		super(modelPageProcessor);
-		this.modelPageProcessor = modelPageProcessor;
-	}
+    protected OOSpider(ModelPageProcessor modelPageProcessor) {
+        super(modelPageProcessor);
+        this.modelPageProcessor = modelPageProcessor;
+    }
 
-	public OOSpider(PageProcessor pageProcessor) {
-		super(pageProcessor);
-	}
+    public OOSpider(PageProcessor pageProcessor) {
+        super(pageProcessor);
+    }
 
-	public OOSpider(Site site, PageModelPipeline pageModelPipeline, Class... pageModels) {
-		this(ModelPageProcessor.create(site, pageModels));
-		this.modelPipeline = new ModelPipeline();
-		super.addPipeline(modelPipeline);
-		for (Class pageModel : pageModels) {
-			String key = pageModel.getCanonicalName();
-			if (pageModelPipeline != null) {
-				this.modelPipeline.put(key, pageModelPipeline);
-			}
-			pageModelClasses.add(key);
-		}
-	}
+    public OOSpider(Site site, PageModelPipeline<?> pageModelPipeline, Class<?>... pageModels) {
+        this(ModelPageProcessor.create(site, pageModels));
+        this.modelPipeline = new ModelPipeline();
+        super.addPipeline(modelPipeline);
+        for (Class<?> pageModel : pageModels) {
+            String key = pageModel.getCanonicalName();
+            if (pageModelPipeline != null) {
+                this.modelPipeline.put(key, pageModelPipeline);
+            }
+            pageModelClasses.add(key);
+        }
+    }
 
-	public static OOSpider create(Site site, Class... pageModels) {
-		return new OOSpider(site, null, pageModels);
-	}
+    public static OOSpider<?> create(Site site, Class<?>... pageModels) {
+        return new OOSpider<Object>(site, null, pageModels);
+    }
 
-	public static OOSpider create(Site site, PageModelPipeline pageModelPipeline, Class... pageModels) {
-		return new OOSpider(site, pageModelPipeline, pageModels);
-	}
+    public static OOSpider<?> create(Site site, PageModelPipeline<?> pageModelPipeline, Class<?>... pageModels) {
+        return new OOSpider<Object>(site, pageModelPipeline, pageModels);
+    }
 
-	public OOSpider addPageModel(PageModelPipeline pageModelPipeline, Class... pageModels) {
-		for (Class pageModel : pageModels) {
-			modelPageProcessor.addPageModel(pageModel);
-			modelPipeline.put(pageModel.getCanonicalName(), pageModelPipeline);
-		}
-		return this;
-	}
+    public OOSpider<T> addPageModel(PageModelPipeline<?> pageModelPipeline, Class<?>... pageModels) {
+        for (Class<?> pageModel : pageModels) {
+            modelPageProcessor.addPageModel(pageModel);
+            modelPipeline.put(pageModel.getCanonicalName(), pageModelPipeline);
+        }
+        return this;
+    }
 
-	public OOSpider(Site site, PageModelPipeline pageModelPipeline, String... paths) {
-		this(site, pageModelPipeline, Xml2Models.create(paths));
-	}
+    public OOSpider(Site site, PageModelPipeline<?> pageModelPipeline, String... paths) {
+        this(site, pageModelPipeline, Xml2Models.create(paths));
+    }
 
-	public OOSpider(Site site, PageModelPipeline pageModelPipeline, Models models) {
-		this(ModelPageProcessor.create(site, models));
-		this.modelPipeline = new ModelPipeline();
-		super.addPipeline(modelPipeline);
-		List<Model> list = models.getModes();
-		for (Model pageModel : list) {
-			if (!pageModel.getBean().isLeaf()) {
-				String key = pageModel.getBean().getName();
-				if (pageModelPipeline != null) {
-					this.modelPipeline.put(key, pageModelPipeline);
-				}
-				pageModelClasses.add(key);
-			}
-		}
-	}
+    public OOSpider(Site site, PageModelPipeline<?> pageModelPipeline, Models models) {
+        this(ModelPageProcessor.create(site, models));
+        this.modelPipeline = new ModelPipeline();
+        super.addPipeline(modelPipeline);
+        List<Model> list = models.getModes();
+        for (Model pageModel : list) {
+            if (!pageModel.getBean().isLeaf()) {
+                String key = pageModel.getBean().getName();
+                if (pageModelPipeline != null) {
+                    this.modelPipeline.put(key, pageModelPipeline);
+                }
+                pageModelClasses.add(key);
+            }
+        }
+    }
 
-	public static OOSpider create(Site site, String... paths) {
-		return new OOSpider(site, null, paths);
-	}
+    public static OOSpider<?> create(Site site, String... paths) {
+        return new OOSpider<Object>(site, null, paths);
+    }
 
-	public static OOSpider create(Site site, PageModelPipeline pageModelPipeline, String... paths) {
-		return new OOSpider(site, pageModelPipeline, paths);
-	}
+    public static OOSpider<?> create(Site site, PageModelPipeline<?> pageModelPipeline, String... paths) {
+        return new OOSpider<Object>(site, pageModelPipeline, paths);
+    }
 
-	public static OOSpider create(Site site, PageModelPipeline pageModelPipeline, Models models) {
-		return new OOSpider(site, pageModelPipeline, models);
-	}
+    public static OOSpider<?> create(Site site, PageModelPipeline<?> pageModelPipeline, Models models) {
+        return new OOSpider<Object>(site, pageModelPipeline, models);
+    }
 
-	public OOSpider addPageModel(PageModelPipeline pageModelPipeline, String... paths) {
-		List<Model> list = Xml2Models.create(paths).getModes();
-		for (Model pageModel : list) {
-			modelPageProcessor.addPageModel(pageModel);
-			modelPipeline.put(pageModel.getBean().getName(), pageModelPipeline);
-		}
-		return this;
-	}
+    public OOSpider<T> addPageModel(PageModelPipeline<?> pageModelPipeline, String... paths) {
+        List<Model> list = Xml2Models.create(paths).getModes();
+        for (Model pageModel : list) {
+            modelPageProcessor.addPageModel(pageModel);
+            modelPipeline.put(pageModel.getBean().getName(), pageModelPipeline);
+        }
+        return this;
+    }
 
-	@Override
-	protected CollectorPipeline getCollectorPipeline() {
-		return new PageModelCollectorPipeline<T>(pageModelClasses.get(0));
-	}
+    @Override
+    protected CollectorPipeline<T> getCollectorPipeline() {
+        return new PageModelCollectorPipeline<T>(pageModelClasses.get(0));
+    }
 
-	public OOSpider setIsExtractLinks(boolean isExtractLinks) {
-		modelPageProcessor.setExtractLinks(isExtractLinks);
-		return this;
-	}
+    public OOSpider<T> setIsExtractLinks(boolean isExtractLinks) {
+        modelPageProcessor.setExtractLinks(isExtractLinks);
+        return this;
+    }
 
 }
