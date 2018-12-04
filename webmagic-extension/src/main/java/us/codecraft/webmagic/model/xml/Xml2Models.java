@@ -53,7 +53,7 @@ public final class Xml2Models {
             return null;
         }
         for (String path : paths) {
-            Models models = parseModel(path);
+            Models models = parse(path, Models.class);
             if (null != mds) {
                 mds.addModel(models);
             } else {
@@ -61,69 +61,6 @@ public final class Xml2Models {
             }
         }
         return mds;
-    }
-
-    private Models parseModel(String path) {
-        if (StringUtils.isBlank(path)) {
-            return null;
-        }
-
-        // 获取请求对象并进行JAXB转换处理
-        // 定义对象至XML对象
-        InputStream is = null;
-        try {
-            // 创建解析工厂
-            SAXParserFactory factory = SAXParserFactory.newInstance();
-            factory.setFeature("http://javax.xml.XMLConstants/feature/secure-processing", true);
-            factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
-            factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
-            factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
-            factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
-            path = path.trim();
-            File fe = new File(path);
-            if (fe.exists()) {
-                is = new FileInputStream(fe);
-            } else {
-                URL url = getClass().getClassLoader().getResource(path);
-                if (null == url) {
-                    // 从jar包里面读取模板文件
-                    is = getClass().getResourceAsStream(path);
-                } else {
-                    is = url.openStream();
-                }
-            }
-            InputSource inputSource = new InputSource(is);
-            Source xmlSource = new SAXSource(factory.newSAXParser().getXMLReader(), inputSource);
-
-            // 初始化上下文对象
-            JAXBContext jaxb = JAXBContext.newInstance(Models.class);
-            // XML初始化对象至对象
-            Unmarshaller unmarshaller = jaxb.createUnmarshaller();
-            Models models = (Models) unmarshaller.unmarshal(xmlSource);
-            return models;
-        } catch (ParserConfigurationException e) {
-        } catch (SAXNotRecognizedException e) {
-            e.printStackTrace();
-        } catch (SAXNotSupportedException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (null != is) {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return null;
     }
 
     @SuppressWarnings("unchecked")
