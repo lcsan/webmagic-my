@@ -1,8 +1,5 @@
 package org.webmagic.xml.bean;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -19,7 +16,7 @@ public class Spider {
 
     private Site site;
     private Redis redis;
-    private List<Database> database = new ArrayList<Database>();
+    private Databases database;
     private GroovyPipeline pipeline;
     private Models models;
     private Task task;
@@ -43,12 +40,12 @@ public class Spider {
         this.redis = redis;
     }
 
-    public List<Database> getDatabase() {
+    public Databases getDatabase() {
         return database;
     }
 
-    @XmlElement(name = "database")
-    public void setDatabase(List<Database> database) {
+    @XmlElement(name = "databases")
+    public void setDatabase(Databases database) {
         this.database = database;
     }
 
@@ -99,7 +96,7 @@ public class Spider {
 
     public void run() {
         if (site.isUseDb()) {
-            for (Database db : database) {
+            for (Database db : database.getDatabase()) {
                 db.start();
             }
         }
@@ -115,7 +112,7 @@ public class Spider {
             task.stop();
         }
         if (site.isUseDb()) {
-            for (Database db : database) {
+            for (Database db : database.getDatabase()) {
                 db.stop();
             }
         }
