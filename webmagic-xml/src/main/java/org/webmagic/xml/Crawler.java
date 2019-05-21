@@ -175,11 +175,11 @@ public class Crawler {
                 fo.write("		<model>\r\n".getBytes("UTF-8"));
                 fo.write("			<bean name=\"IqiyiPage\">\r\n".getBytes("UTF-8"));
                 fo.write("				<field name=\"name\">\r\n".getBytes("UTF-8"));
-                fo.write("					<extract expression=\"xpath('//*[@itemprop='name']/text()')\" />\r\n"
+                fo.write("					<extract expression=\"xpath('//h1[@itemprop='name']/text()')\" />\r\n"
                         .getBytes("UTF-8"));
                 fo.write("				</field>\r\n".getBytes("UTF-8"));
                 fo.write("				<field name=\"names\">\r\n".getBytes("UTF-8"));
-                fo.write("					<extract expression=\"xpath('//*[@itemprop='name']/text()')\"\r\n"
+                fo.write("					<extract expression=\"xpath('//h1[@itemprop='name']/text()')\"\r\n"
                         .getBytes("UTF-8"));
                 fo.write("						notnull=\"false\" />\r\n".getBytes("UTF-8"));
                 fo.write("				</field>\r\n".getBytes("UTF-8"));
@@ -197,7 +197,7 @@ public class Crawler {
                 fo.write("		<model>\r\n".getBytes("UTF-8"));
                 fo.write("			<bean name=\"iqiyi1\" leaf=\"true\">\r\n".getBytes("UTF-8"));
                 fo.write("				<field name=\"name\">\r\n".getBytes("UTF-8"));
-                fo.write("					<extract expression=\"//*[@itemprop='name']/text()\" />\r\n"
+                fo.write("					<extract expression=\"//h1[@itemprop='name']/text()\" />\r\n"
                         .getBytes("UTF-8"));
                 fo.write("				</field>\r\n".getBytes("UTF-8"));
                 fo.write("			</bean>\r\n".getBytes("UTF-8"));
