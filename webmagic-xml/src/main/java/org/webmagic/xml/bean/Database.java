@@ -3,6 +3,8 @@ package org.webmagic.xml.bean;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.dialect.AnsiSqlDialect;
 import com.jfinal.plugin.activerecord.dialect.MysqlDialect;
@@ -23,11 +25,7 @@ public class Database {
     private int initialSize;
     private int minIdle;
     private int maxActive;
-    private int maxIdleTime;
-    private int idleConnectionTestPeriod;
-    private int maxPoolSize;
-    private int minPoolSize;
-    private int initialPoolSize;
+
     private DruidPlugin dp;
     private ActiveRecordPlugin arp;
 
@@ -64,7 +62,9 @@ public class Database {
 
     @XmlElement(name = "url")
     public void setUrl(String url) {
-        this.url = url;
+        if (StringUtils.isNotBlank(url)) {
+            this.url = url.trim();
+        }
     }
 
     public String getUserName() {
@@ -112,57 +112,20 @@ public class Database {
         this.maxActive = maxActive;
     }
 
-    public int getMaxIdleTime() {
-        return maxIdleTime;
-    }
-
-    @XmlElement(name = "maxIdleTime")
-    public void setMaxIdleTime(int maxIdleTime) {
-        this.maxIdleTime = maxIdleTime;
-    }
-
-    public int getIdleConnectionTestPeriod() {
-        return idleConnectionTestPeriod;
-    }
-
-    @XmlElement(name = "idleConnectionTestPeriod")
-    public void setIdleConnectionTestPeriod(int idleConnectionTestPeriod) {
-        this.idleConnectionTestPeriod = idleConnectionTestPeriod;
-    }
-
-    public int getMaxPoolSize() {
-        return maxPoolSize;
-    }
-
-    @XmlElement(name = "maxPoolSize")
-    public void setMaxPoolSize(int maxPoolSize) {
-        this.maxPoolSize = maxPoolSize;
-    }
-
-    public int getMinPoolSize() {
-        return minPoolSize;
-    }
-
-    @XmlElement(name = "minPoolSize")
-    public void setMinPoolSize(int minPoolSize) {
-        this.minPoolSize = minPoolSize;
-    }
-
-    public int getInitialPoolSize() {
-        return initialPoolSize;
-    }
-
-    @XmlElement(name = "initialPoolSize")
-    public void setInitialPoolSize(int initialPoolSize) {
-        this.initialPoolSize = initialPoolSize;
-    }
-
     public void start() {
         if (dp == null) {
-            if (driver != null) {
-                dp = new DruidPlugin(url, userName, password, driver);
-            } else {
-                dp = new DruidPlugin(url, userName, password);
+            dp = new DruidPlugin(url, userName, password);
+            if (StringUtils.isNotBlank(driver)) {
+                dp.setDriverClass(driver);
+            }
+            if (initialSize > 0) {
+                dp.setInitialSize(initialSize);
+            }
+            if (minIdle > 0) {
+                dp.setMinIdle(minIdle);
+            }
+            if (maxActive > 0) {
+                dp.setMaxActive(maxActive);
             }
         }
         if (arp == null) {
@@ -205,11 +168,9 @@ public class Database {
 
     @Override
     public String toString() {
-        return "Database [driver=" + driver + ", url=" + url + ", userName=" + userName + ", password=" + password
-                + ", initialSize=" + initialSize + ", minIdle=" + minIdle + ", maxActive=" + maxActive
-                + ", maxIdleTime=" + maxIdleTime + ", idleConnectionTestPeriod=" + idleConnectionTestPeriod
-                + ", maxPoolSize=" + maxPoolSize + ", minPoolSize=" + minPoolSize + ", initialPoolSize="
-                + initialPoolSize + "]";
+        return "Database [name=" + name + ", type=" + type + ", driver=" + driver + ", url=" + url + ", userName="
+                + userName + ", password=" + password + ", initialSize=" + initialSize + ", minIdle=" + minIdle
+                + ", maxActive=" + maxActive + "]";
     }
 
 }
