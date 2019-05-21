@@ -1,136 +1,215 @@
 package org.webmagic.xml.bean;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
+import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+import com.jfinal.plugin.activerecord.dialect.AnsiSqlDialect;
+import com.jfinal.plugin.activerecord.dialect.MysqlDialect;
+import com.jfinal.plugin.activerecord.dialect.OracleDialect;
+import com.jfinal.plugin.activerecord.dialect.PostgreSqlDialect;
+import com.jfinal.plugin.activerecord.dialect.SqlServerDialect;
+import com.jfinal.plugin.activerecord.dialect.Sqlite3Dialect;
+import com.jfinal.plugin.druid.DruidPlugin;
+
 public class Database {
-	private String driver;
-	private String url;
-	private String userName;
-	private String password;
-	private int initialSize;
-	private int minIdle;
-	private int maxActive;
-	private int maxIdleTime;
-	private int idleConnectionTestPeriod;
-	private int maxPoolSize;
-	private int minPoolSize;
-	private int initialPoolSize;
 
-	public String getDriver() {
-		return driver;
-	}
+    private String name;
+    private String type;
+    private String driver;
+    private String url;
+    private String userName;
+    private String password;
+    private int initialSize;
+    private int minIdle;
+    private int maxActive;
+    private int maxIdleTime;
+    private int idleConnectionTestPeriod;
+    private int maxPoolSize;
+    private int minPoolSize;
+    private int initialPoolSize;
+    private DruidPlugin dp;
+    private ActiveRecordPlugin arp;
 
-	@XmlElement(name = "driver")
-	public void setDriver(String driver) {
-		this.driver = driver;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getUrl() {
-		return url;
-	}
+    @XmlAttribute(name = "name")
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	@XmlElement(name = "url")
-	public void setUrl(String url) {
-		this.url = url;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public String getUserName() {
-		return userName;
-	}
+    @XmlAttribute(name = "type")
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	@XmlElement(name = "userName")
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+    public String getDriver() {
+        return driver;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    @XmlElement(name = "driver")
+    public void setDriver(String driver) {
+        this.driver = driver;
+    }
 
-	@XmlElement(name = "password")
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public String getUrl() {
+        return url;
+    }
 
-	public int getInitialSize() {
-		return initialSize;
-	}
+    @XmlElement(name = "url")
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-	@XmlElement(name = "initialSize")
-	public void setInitialSize(int initialSize) {
-		this.initialSize = initialSize;
-	}
+    public String getUserName() {
+        return userName;
+    }
 
-	public int getMinIdle() {
-		return minIdle;
-	}
+    @XmlElement(name = "userName")
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
-	@XmlElement(name = "minIdle")
-	public void setMinIdle(int minIdle) {
-		this.minIdle = minIdle;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public int getMaxActive() {
-		return maxActive;
-	}
+    @XmlElement(name = "password")
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	@XmlElement(name = "maxActive")
-	public void setMaxActive(int maxActive) {
-		this.maxActive = maxActive;
-	}
+    public int getInitialSize() {
+        return initialSize;
+    }
 
-	public int getMaxIdleTime() {
-		return maxIdleTime;
-	}
+    @XmlElement(name = "initialSize")
+    public void setInitialSize(int initialSize) {
+        this.initialSize = initialSize;
+    }
 
-	@XmlElement(name = "maxIdleTime")
-	public void setMaxIdleTime(int maxIdleTime) {
-		this.maxIdleTime = maxIdleTime;
-	}
+    public int getMinIdle() {
+        return minIdle;
+    }
 
-	public int getIdleConnectionTestPeriod() {
-		return idleConnectionTestPeriod;
-	}
+    @XmlElement(name = "minIdle")
+    public void setMinIdle(int minIdle) {
+        this.minIdle = minIdle;
+    }
 
-	@XmlElement(name = "idleConnectionTestPeriod")
-	public void setIdleConnectionTestPeriod(int idleConnectionTestPeriod) {
-		this.idleConnectionTestPeriod = idleConnectionTestPeriod;
-	}
+    public int getMaxActive() {
+        return maxActive;
+    }
 
-	public int getMaxPoolSize() {
-		return maxPoolSize;
-	}
+    @XmlElement(name = "maxActive")
+    public void setMaxActive(int maxActive) {
+        this.maxActive = maxActive;
+    }
 
-	@XmlElement(name = "maxPoolSize")
-	public void setMaxPoolSize(int maxPoolSize) {
-		this.maxPoolSize = maxPoolSize;
-	}
+    public int getMaxIdleTime() {
+        return maxIdleTime;
+    }
 
-	public int getMinPoolSize() {
-		return minPoolSize;
-	}
+    @XmlElement(name = "maxIdleTime")
+    public void setMaxIdleTime(int maxIdleTime) {
+        this.maxIdleTime = maxIdleTime;
+    }
 
-	@XmlElement(name = "minPoolSize")
-	public void setMinPoolSize(int minPoolSize) {
-		this.minPoolSize = minPoolSize;
-	}
+    public int getIdleConnectionTestPeriod() {
+        return idleConnectionTestPeriod;
+    }
 
-	public int getInitialPoolSize() {
-		return initialPoolSize;
-	}
+    @XmlElement(name = "idleConnectionTestPeriod")
+    public void setIdleConnectionTestPeriod(int idleConnectionTestPeriod) {
+        this.idleConnectionTestPeriod = idleConnectionTestPeriod;
+    }
 
-	@XmlElement(name = "initialPoolSize")
-	public void setInitialPoolSize(int initialPoolSize) {
-		this.initialPoolSize = initialPoolSize;
-	}
+    public int getMaxPoolSize() {
+        return maxPoolSize;
+    }
 
-	@Override
-	public String toString() {
-		return "Database [driver=" + driver + ", url=" + url + ", userName=" + userName + ", password=" + password
-				+ ", initialSize=" + initialSize + ", minIdle=" + minIdle + ", maxActive=" + maxActive
-				+ ", maxIdleTime=" + maxIdleTime + ", idleConnectionTestPeriod=" + idleConnectionTestPeriod
-				+ ", maxPoolSize=" + maxPoolSize + ", minPoolSize=" + minPoolSize + ", initialPoolSize="
-				+ initialPoolSize + "]";
-	}
+    @XmlElement(name = "maxPoolSize")
+    public void setMaxPoolSize(int maxPoolSize) {
+        this.maxPoolSize = maxPoolSize;
+    }
+
+    public int getMinPoolSize() {
+        return minPoolSize;
+    }
+
+    @XmlElement(name = "minPoolSize")
+    public void setMinPoolSize(int minPoolSize) {
+        this.minPoolSize = minPoolSize;
+    }
+
+    public int getInitialPoolSize() {
+        return initialPoolSize;
+    }
+
+    @XmlElement(name = "initialPoolSize")
+    public void setInitialPoolSize(int initialPoolSize) {
+        this.initialPoolSize = initialPoolSize;
+    }
+
+    public void start() {
+        if (dp == null) {
+            if (driver != null) {
+                dp = new DruidPlugin(url, userName, password, driver);
+            } else {
+                dp = new DruidPlugin(url, userName, password);
+            }
+        }
+        if (arp == null) {
+            arp = new ActiveRecordPlugin(getName(), dp);
+            Integer dialect = Common.DM_MAP.get(type);
+            switch (dialect) {
+            case 6:
+                arp.setDialect(new AnsiSqlDialect());
+                break;
+            case 2:
+                arp.setDialect(new OracleDialect());
+                break;
+            case 3:
+                arp.setDialect(new PostgreSqlDialect());
+                break;
+            case 4:
+                arp.setDialect(new SqlServerDialect());
+                break;
+            case 5:
+                arp.setDialect(new Sqlite3Dialect());
+                break;
+            case 1:
+            default:
+                arp.setDialect(new MysqlDialect());
+                break;
+            }
+        }
+        dp.start();
+        arp.start();
+    }
+
+    public void stop() {
+        if (arp != null) {
+            dp.stop();
+        }
+        if (dp != null) {
+            dp.stop();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Database [driver=" + driver + ", url=" + url + ", userName=" + userName + ", password=" + password
+                + ", initialSize=" + initialSize + ", minIdle=" + minIdle + ", maxActive=" + maxActive
+                + ", maxIdleTime=" + maxIdleTime + ", idleConnectionTestPeriod=" + idleConnectionTestPeriod
+                + ", maxPoolSize=" + maxPoolSize + ", minPoolSize=" + minPoolSize + ", initialPoolSize="
+                + initialPoolSize + "]";
+    }
 
 }
