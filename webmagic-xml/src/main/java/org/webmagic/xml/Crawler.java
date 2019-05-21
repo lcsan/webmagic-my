@@ -141,7 +141,8 @@ public class Crawler {
                 fo.write("		<timeout></timeout>\r\n".getBytes("UTF-8"));
                 fo.write("		<dbIndex></dbIndex>\r\n".getBytes("UTF-8"));
                 fo.write("	</redis>\r\n".getBytes("UTF-8"));
-                fo.write("	<database>\r\n".getBytes("UTF-8"));
+                fo.write("  <!-- mysql,oracle,pgsql,sqlserver,sqlite3,ansi -->\r\n".getBytes("UTF-8"));
+                fo.write("	<database name=\"mysqldb\" type=\"mysql\">\r\n".getBytes("UTF-8"));
                 fo.write("		<driver>com.mysql.jdbc.Driver</driver>\r\n".getBytes("UTF-8"));
                 fo.write("		<url>\r\n".getBytes("UTF-8"));
                 fo.write("		  <![CDATA[\r\n".getBytes("UTF-8"));
@@ -163,8 +164,11 @@ public class Crawler {
                 fo.write("	</database>\r\n".getBytes("UTF-8"));
                 fo.write("	<pipeline>\r\n".getBytes("UTF-8"));
                 fo.write("	    <![CDATA[\r\n".getBytes("UTF-8"));
-                fo.write("	       println(obj);\r\n".getBytes("UTF-8"));
-                fo.write("           println(obj.iqiyisub.name);\r\n".getBytes("UTF-8"));
+                fo.write("      import org.webmagic.*;\r\n".getBytes("UTF-8"));
+                fo.write("      def pipeline(bean,task){\r\n".getBytes("UTF-8"));
+                fo.write("	       println(bean);\r\n".getBytes("UTF-8"));
+                fo.write("           println(bean.iqiyisub.name);\r\n".getBytes("UTF-8"));
+                fo.write("      }\r\n".getBytes("UTF-8"));
                 fo.write("	     ]]>\r\n".getBytes("UTF-8"));
                 fo.write("	</pipeline>\r\n".getBytes("UTF-8"));
                 fo.write("	<models>\r\n".getBytes("UTF-8"));
@@ -199,11 +203,7 @@ public class Crawler {
                 fo.write("			</bean>\r\n".getBytes("UTF-8"));
                 fo.write("		</model>\r\n".getBytes("UTF-8"));
                 fo.write("	</models>\r\n".getBytes("UTF-8"));
-                fo.write("	<task>\r\n".getBytes("UTF-8"));
-                fo.write("		<delay>1000</delay>\r\n".getBytes("UTF-8"));
-                fo.write("		<period>6000</period>\r\n".getBytes("UTF-8"));
-                fo.write("		<atFixedRate>false</atFixedRate>\r\n".getBytes("UTF-8"));
-                fo.write("	</task>\r\n".getBytes("UTF-8"));
+                fo.write("	<!--<task>* * * * *</task>-->\r\n".getBytes("UTF-8"));
                 fo.write("</spider>\r\n".getBytes("UTF-8"));
                 fo.flush();
                 fo.close();
