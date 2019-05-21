@@ -27,7 +27,7 @@ public class Task {
     public void start(Runnable spider) {
         if (cp == null) {
             cp = new Cron4jPlugin();
-            cp.addTask(cron, spider);
+            cp.addTask(cron, spider, false);
         }
         cp.start();
     }
