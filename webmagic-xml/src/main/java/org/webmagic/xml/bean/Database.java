@@ -127,6 +127,7 @@ public class Database {
             if (maxActive > 0) {
                 dp.setMaxActive(maxActive);
             }
+            dp.setName(name);
         }
         if (arp == null) {
             arp = new ActiveRecordPlugin(getName(), dp);
