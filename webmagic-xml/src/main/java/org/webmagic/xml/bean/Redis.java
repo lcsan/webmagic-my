@@ -61,7 +61,7 @@ public class Redis {
 		this.dbIndex = dbIndex;
 	}
 
-	public JedisPool getRedisPool() {
+	public JedisPool redisPool() {
 		if (null == redisPool) {
 			if (timeout > 0) {
 				if (StringUtils.isNotBlank(password)) {
