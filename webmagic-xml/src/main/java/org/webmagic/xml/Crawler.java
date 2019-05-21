@@ -185,8 +185,11 @@ public class Crawler {
                 strVar += " <!-- 抽取模板 -->\r\n";
                 strVar += " <models>\r\n";
                 strVar += "     <model>\r\n";
+                strVar += "         <!-- name=\"name\"(模板名称) leaf=\"false\"(是否子模板) -->\r\n";
                 strVar += "         <bean name=\"IqiyiPage\">\r\n";
+                strVar += "             <!-- name=\"name\"(字段名称) type=\"string\"(字段类型:byte,char/character,short,int/integer,long,double,float,str/string,boolean,list,set,object) leafid=\"leadid\"(子模板name) foundflag=\"false\"(作为url继续爬取) transmitflag=\"false\"(值往后传递) saveflag=\"true\"(抽取值是否保存到结果) -->\r\n";
                 strVar += "             <field name=\"name\">\r\n";
+                strVar += "                 <!-- expression=\"//hi\"(表达式) type=\"mixe\"(表达式类型:mixe,css,regex,xpath,json,filter,replace,split) notNull=\"false\"(结果是否允许不为空) multi=\"false\"(list抽取) -->\r\n";
                 strVar += "                 <extract expression=\"xpath('//h1[@itemprop='name']/text()')\" />\r\n";
                 strVar += "             </field>\r\n";
                 strVar += "             <field name=\"names\">\r\n";
@@ -198,6 +201,7 @@ public class Crawler {
                 strVar += "                 <extract expression=\"*\" />\r\n";
                 strVar += "             </field>\r\n";
                 strVar += "         </bean>\r\n";
+                strVar += "         <!-- region=\"//hi\"(抽取区域) -->\r\n";
                 strVar += "         <tagurl>\r\n";
                 strVar += "             <expression>http://www.iqiyi.com/lib/s_\\d+.html</expression>\r\n";
                 strVar += "         </tagurl>\r\n";
