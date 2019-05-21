@@ -1,101 +1,46 @@
 package org.webmagic.xml.bean;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import javax.xml.bind.annotation.XmlValue;
 
-import javax.xml.bind.annotation.XmlElement;
-
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.jfinal.plugin.cron4j.Cron4jPlugin;
+
 public class Task {
-	private long delay;
-	private long period;
-	private boolean atFixedRate;
-	private String cron;
-	private Timer tm;
 
-	protected Logger logger = LoggerFactory.getLogger(getClass());
+    private String cron;
 
-	public long getDelay() {
-		return delay;
-	}
+    private Cron4jPlugin cp;
 
-	@XmlElement(name = "delay")
-	public void setDelay(long delay) {
-		this.delay = delay;
-	}
+    protected Logger logger = LoggerFactory.getLogger(getClass());
 
-	public long getPeriod() {
-		return period;
-	}
+    public String getCron() {
+        return cron;
+    }
 
-	@XmlElement(name = "period")
-	public void setPeriod(long period) {
-		this.period = period;
-	}
+    @XmlValue
+    public void setCron(String cron) {
+        this.cron = cron;
+    }
 
-	public boolean isAtFixedRate() {
-		return atFixedRate;
-	}
+    public void start(Runnable spider) {
+        if (cp == null) {
+            cp = new Cron4jPlugin();
+            cp.addTask(cron, spider);
+        }
+        cp.start();
+    }
 
-	@XmlElement(name = "atFixedRate")
-	public void setAtFixedRate(boolean atFixedRate) {
-		this.atFixedRate = atFixedRate;
-	}
+    public void stop() {
+        if (cp != null) {
+            cp.stop();
+        }
+    }
 
-	public String getCron() {
-		return cron;
-	}
-
-	@XmlElement(name = "cron")
-	public void setCron(String cron) {
-		this.cron = cron;
-	}
-
-	class SpiderTask extends TimerTask {
-		private us.codecraft.webmagic.Spider spider;
-		private boolean reset;
-
-		public SpiderTask(us.codecraft.webmagic.Spider spider, boolean reset) {
-			super();
-			this.spider = spider;
-			this.reset = reset;
-		}
-
-		@Override
-		public void run() {
-			logger.info("spider Task run!");
-			spider.run();
-			if (reset) {
-				spider.reset(false);
-			}
-		}
-	}
-
-	public void runTask(us.codecraft.webmagic.Spider spider, boolean reset) {
-		if (StringUtils.isNotBlank(cron)) {
-
-		} else {
-			tm = new Timer();
-			if (atFixedRate) {
-				tm.scheduleAtFixedRate(new SpiderTask(spider, reset), delay, period);
-			} else {
-				tm.schedule(new SpiderTask(spider, reset), delay, period);
-			}
-		}
-	}
-
-	public void close() {
-		if (null != tm) {
-			tm.cancel();
-		}
-	}
-
-	@Override
-	public String toString() {
-		return "Task [delay=" + delay + ", period=" + period + ", atFixedRate=" + atFixedRate + ", cron=" + cron + "]";
-	}
+    @Override
+    public String toString() {
+        return "Task [cron=" + cron + "]";
+    }
 
 }
