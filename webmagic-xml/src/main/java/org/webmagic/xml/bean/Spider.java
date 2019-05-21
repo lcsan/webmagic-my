@@ -1,5 +1,8 @@
 package org.webmagic.xml.bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -14,103 +17,114 @@ import us.codecraft.webmagic.scheduler.RedisScheduler;
 @XmlRootElement(name = "spider")
 public class Spider {
 
-	private Site site;
-	private Redis redis;
-	private Database database;
-	private Pipeline pipeline;
-	private Models models;
-	private Task task;
-	private us.codecraft.webmagic.Spider spider;
+    private Site site;
+    private Redis redis;
+    private List<Database> database = new ArrayList<Database>();
+    private GroovyPipeline pipeline;
+    private Models models;
+    private Task task;
+    private us.codecraft.webmagic.Spider spider;
 
-	public Site getSite() {
-		return site;
-	}
+    public Site getSite() {
+        return site;
+    }
 
-	@XmlElement(name = "site")
-	public void setSite(Site site) {
-		this.site = site;
-	}
+    @XmlElement(name = "site")
+    public void setSite(Site site) {
+        this.site = site;
+    }
 
-	public Redis getRedis() {
-		return redis;
-	}
+    public Redis getRedis() {
+        return redis;
+    }
 
-	@XmlElement(name = "redis")
-	public void setRedis(Redis redis) {
-		this.redis = redis;
-	}
+    @XmlElement(name = "redis")
+    public void setRedis(Redis redis) {
+        this.redis = redis;
+    }
 
-	public Database getDatabase() {
-		return database;
-	}
+    public List<Database> getDatabase() {
+        return database;
+    }
 
-	@XmlElement(name = "database")
-	public void setDatabase(Database database) {
-		this.database = database;
-	}
+    @XmlElement(name = "database")
+    public void setDatabase(List<Database> database) {
+        this.database = database;
+    }
 
-	public Pipeline getPipeline() {
-		return pipeline;
-	}
+    public GroovyPipeline getPipeline() {
+        return pipeline;
+    }
 
-	@XmlElement(name = "pipeline")
-	public void setPipeline(Pipeline pipeline) {
-		this.pipeline = pipeline;
-	}
+    @XmlElement(name = "pipeline")
+    public void setPipeline(GroovyPipeline pipeline) {
+        this.pipeline = pipeline;
+    }
 
-	public Models getModels() {
-		return models;
-	}
+    public Models getModels() {
+        return models;
+    }
 
-	@XmlElement(name = "models")
-	public void setModels(Models models) {
-		this.models = models;
-	}
+    @XmlElement(name = "models")
+    public void setModels(Models models) {
+        this.models = models;
+    }
 
-	public Task getTask() {
-		return task;
-	}
+    public Task getTask() {
+        return task;
+    }
 
-	@XmlElement(name = "task")
-	public void setTask(Task task) {
-		this.task = task;
-	}
+    @XmlElement(name = "task")
+    public void setTask(Task task) {
+        this.task = task;
+    }
 
-	public us.codecraft.webmagic.Spider getSpider() {
-		if (null == spider) {
-			spider = OOSpider.create(site.getSite(), pipeline.getPipeline(), models).addUrl(site.getStartUrls())
-					.thread(site.getThreadSize());
-			if (site.isUseRedis()) {
-				if (site.isUsePriority()) {
-					spider.setScheduler(new RedisPriorityScheduler(redis.getRedisPool()));
-				} else {
-					spider.setScheduler(new RedisScheduler(redis.getRedisPool()));
-				}
-			} else if (site.isUsePriority()) {
-				spider.setScheduler(new PriorityScheduler());
-			}
-		}
-		return spider;
-	}
+    public us.codecraft.webmagic.Spider getSpider() {
+        if (null == spider) {
+            spider = OOSpider.create(site.getSite(), pipeline.getPipeline(), models).addUrl(site.getStartUrls())
+                    .thread(site.getThreadSize());
+            if (site.isUseRedis()) {
+                if (site.isUsePriority()) {
+                    spider.setScheduler(new RedisPriorityScheduler(redis.redisPool()));
+                } else {
+                    spider.setScheduler(new RedisScheduler(redis.redisPool()));
+                }
+            } else if (site.isUsePriority()) {
+                spider.setScheduler(new PriorityScheduler());
+            }
 
-	public void run() {
-		if (null != task) {
-			task.runTask(getSpider(), site.isResetQueue());
-		} else {
-			getSpider().run();
-		}
-	}
+        }
+        return spider;
+    }
 
-	public void close() {
-		if (null != task) {
-			task.close();
-		}
-		getSpider().reset(false);
-	}
+    public void run() {
+        if (site.isUseDb()) {
+            for (Database db : database) {
+                db.start();
+            }
+        }
+        if (null != task) {
+            task.start(getSpider());
+        } else {
+            getSpider().run();
+        }
+    }
 
-	@Override
-	public String toString() {
-		return JSON.toJSONString(this);
-	}
+    public void close() {
+        if (null != task) {
+            task.stop();
+        }
+        if (site.isUseDb()) {
+            for (Database db : database) {
+                db.stop();
+            }
+        }
+        getSpider().reset(false);
+    }
+
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
+    }
 
 }
