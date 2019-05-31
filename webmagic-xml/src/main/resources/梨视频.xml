@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spider>
+ <site>
+     <!-- 网站域名，可以不填 -->
+     <domain></domain>
+     <!-- 浏览器标识 -->
+     <userAgent>
+       <![CDATA[
+           Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36
+         ]]>
+     </userAgent>
+     <!-- 页面编码 -->
+     <charset>utf-8</charset>
+     <!-- 间隔时间 -->
+     <sleepTime>500</sleepTime>
+     <!-- 立即重试次数 -->
+     <retryTimes>2</retryTimes>
+     <!-- 队尾重试次数 -->
+     <cycleRetryTimes>0</cycleRetryTimes>
+     <!-- 队尾重试间隔 -->
+     <retrySleepTime>200</retrySleepTime>
+     <!-- 超时时间 -->
+     <timeout>5000</timeout>
+     <!-- 是否Gzip -->
+     <useGzip>true</useGzip>
+     <!-- 不自动管理cookie -->
+     <disableCookieManagement>false</disableCookieManagement>
+     <!-- 线程数 -->
+     <threadSize>1</threadSize>
+     <!-- 是否重置队列 -->
+     <resetQueue>false</resetQueue>
+     <!-- 是否启用优先级设置 -->
+     <usePriority>false</usePriority>
+     <!-- 是否使用redis -->
+     <useRedis>false</useRedis>
+     <!-- 是否使用数据库 -->
+     <useDb>false</useDb>
+     <!-- 起始爬取地址,多个值","分隔-->
+     <url>
+            <![CDATA[
+                http://app.pearvideo.com/clt/jsp/v4/getCategorys.jsp
+            ]]>
+     </url>
+     <!-- 成功的消息返回码 -->
+     <acceptStatCode>200</acceptStatCode>
+	<cookies> 
+         <cookie key="PEAR_UUID">841671c5-60c7-4a57-82f8-e31c1084de8e</cookie> 
+     </cookies>
+     <!-- 字符串格式 -->
+     <!-- <cookie> 
+         <![CDATA[ 
+         __guid=26936763.670147605910933600.1510325694223.3628; 
+         monitor_count=1; 
+         __utma=55973678.1155684392.1510325696.1510325696.1510325696.1; 
+         __utmc=55973678; 
+         __utmz=55973678.1510325696.1.1.utmccn=(organic)|utmcsr=baidu|utmctr=|utmcmd=organic 
+         ]]> 
+     </cookie>  -->
+     <!-- 消息头 -->
+     <!-- <header> 
+         <![CDATA[ 
+         Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8 
+         Accept-Encoding:gzip, deflate, sdch Accept-Language:zh-CN,zh;q=0.8 Cache-Control:max-age=0 
+         Connection:keep-alive Cookie:__guid=26936763.670147605910933600.1510325694223.3628; monitor_count=1; __utma=55973678.1155684392.1510325696.1510325696.1510325696.1; __utmc=55973678; __utmz=55973678.1510325696.1.1.utmccn=(organic)|utmcsr=baidu|utmctr=|utmcmd=organic 
+         Host:www.tutorialspoint.com Upgrade-Insecure-Requests:1
+         User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36 
+         ]]> 
+     </header> -->  
+
+     <!-- 对象格式 -->
+     <!-- <cookies> 
+         <cookie key="a">1</cookie> 
+         <cookie key="c">2</cookie> 
+         <cookie key="c">3</cookie> 
+     </cookies> 
+     <headers> 
+         <header key="e">4</header> 
+         <header key="f">5</header> 
+         <header key="g">6</header> 
+     </headers> 
+     
+     <urls> 
+         <url>f</url>           
+         <url>e</url> 
+         <url>v</url> 
+     </urls>
+     <acceptStatCodes> 
+         <acceptStatCode>200</acceptStatCode> 
+     </acceptStatCodes> -->
+     <!-- post请求头 -->
+     <!-- <requests> 
+         <request> 
+             <url>aa</url> 
+             <method>post</method> 
+             <requestBody>sss</requestBody> 
+             <priority>11</priority> 
+             <cookie> 
+                 <![CDATA[ 
+                 __guid=26936763.670147605910933600.1510325694223.3628; 
+                 monitor_count=1; 
+                 __utma=55973678.1155684392.1510325696.1510325696.1510325696.1; 
+                 __utmc=55973678; 
+                 __utmz=55973678.1510325696.1.1.utmccn=(organic)|utmcsr=baidu|utmctr=|utmcmd=organic 
+                 ]]> 
+             </cookie>
+             <header> 
+                 <![CDATA[ 
+                 Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8 
+                 Accept-Encoding:gzip, deflate, sdch Accept-Language:zh-CN,zh;q=0.8 Cache-Control:max-age=0 
+                 Connection:keep-alive Cookie:__guid=26936763.670147605910933600.1510325694223.3628; monitor_count=1; __utma=55973678.1155684392.1510325696.1510325696.1510325696.1; __utmc=55973678; __utmz=55973678.1510325696.1.1.utmccn=(organic)|utmcsr=baidu|utmctr=|utmcmd=organic 
+                 Host:www.tutorialspoint.com Upgrade-Insecure-Requests:1 User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36 
+                 ]]> 
+             </header> 
+             <cookies> 
+                 <cookie key="a">1</cookie> 
+                 <cookie key="c">2</cookie>
+                 <cookie key="c">3</cookie> 
+             </cookies> 
+             <headers> 
+                 <header key="e">4</header>
+                 <header key="f">5</header>
+                 <header key="g">6</header> 
+             </headers> 
+         </request> 
+     </requests> -->
+ </site>
+ <!-- redis -->
+ <redis>
+     <host>127.0.0.1</host>
+     <port>6379</port>
+     <password></password>
+     <timeout></timeout>
+     <dbIndex></dbIndex>
+ </redis>
+ <!-- mysql,oracle,pgsql,sqlserver,sqlite3,ansi -->
+ <databases>
+     <database name="mysqldb" type="mysql">
+         <!-- 数据库链接 -->
+         <url>
+           <![CDATA[
+               jdbc:mysql://127.0.0.1:3306/lcsan?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
+           ]]>
+         </url>
+         <!-- 连接数据库的用户名 -->
+         <userName>root</userName>
+         <!-- 连接数据库的密码 -->
+         <password></password>
+         <!-- 数据库驱动名（这一项可配可不配） -->
+         <!--<driver>com.mysql.jdbc.Driver</driver> -->
+         <!-- 初始化时建立物理连接的个数 -->
+         <initialSize>2</initialSize>
+         <!-- 最小连接池数量 -->
+         <minIdle>2</minIdle>
+         <!-- 最大连接池数量 -->
+         <maxActive>10</maxActive>
+     </database>
+ </databases>
+ <!-- 结果处理 -->
+ <pipeline>
+     <![CDATA[
+		 import groovy.transform.Field;
+         import org.webmagic.*;
+		 import com.csvreader.CsvWriter;
+		 import java.nio.charset.Charset;
+         //import com.jfinal.plugin.activerecord.*;
+
+		 @Field csv;
+
+         def pipeline(bean,task){
+			if(csv == null){
+				char spit = ','
+				csv = new CsvWriter("aaaa.csv", spit, Charset.forName("UTF-8"));
+				String[] headers = [ "id", "name", "summary", "pubTime", "praiseTimes", "img", "url", "tags", "videoUrls" ];
+				try {
+					csv.writeRecord(headers);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if(bean.beanName == "summary"){	
+				 String[] content = [ bean.id, bean.name, bean.summary, bean.pubTime, bean.praiseTimes, bean.img, bean.url, String.join("|",bean.tags), bean.videoUrls ];
+				 try {
+					csv.writeRecord(content);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				 println(bean.beanName);
+				 println(bean);
+			}
+			 
+             //Db.save("test", new Record().set("name", bean.name).set("img", bean.img).set("summary", bean.summary).set("tpy", bean.iqiyisub.name))
+         }
+      ]]>
+ </pipeline>
+ <!-- 抽取模板 -->
+ <models>
+     <model>
+		 <!-- name="name"(模板名称) leaf="false"(是否子模板) -->
+         <bean name="category">
+			 <!-- name="name"(字段名称) type="string"(字段类型:byte,char/character,short,int/integer,long,double,float,str/string,boolean,list,set,object) leafid="leadid"(子模板id) foundflag="false"(作为url继续爬取) transmitflag="false"(值往后传递) saveflag="true"(抽取值是否保存到结果) -->
+             <field name="urls" type="list" foundflag="true" >
+				<!-- expression="//hi"(表达式) type="mixe"(表达式类型:mixe,css,regex,xpath,json,filter,replace,split) notNull="false"(结果是否允许不为空) multi="false"(list抽取) -->
+                 <extract expression="json('$..categoryId').replace('^(.*?)$','http://app.pearvideo.com/clt/jsp/v4/getCategoryConts.jsp?hotPageidx=2&amp;categoryId=$1')" multi="true"  />
+             </field>             
+         </bean>
+		 <!-- region="//hi"(抽取区域) -->
+         <tagurl>
+             <expression>http://app.pearvideo.com/clt/jsp/v4/getCategorys.jsp</expression>
+         </tagurl>		 	 
+     </model>    
+	 <model>
+         <bean name="items">
+			 <field name="urls" type="list" foundflag="true" >
+				<extract expression="json('$..contId').replace('^(.*?)$','http://app.pearvideo.com/clt/jsp/v4/content.jsp?contId=$1')" multi="true" />
+             </field> 
+         </bean>
+		 <tagurl>
+             <expression>http://app.pearvideo.com/clt/jsp/v4/getCategoryConts.jsp\?hotPageidx=*</expression>
+         </tagurl>
+		 <extract expression="$..hotList[*]" type="json"  multi="true" />
+     </model>
+	 <model>
+         <bean name="summary">
+			 <field name="id" notNull="true">
+				<extract expression="$..content.contId" type="json" />
+             </field>
+			 <field name="name" >
+				<extract expression="$..content.name" type="json" />
+             </field> 
+			 <field name="summary" >
+				<extract expression="$..content.summary" type="json" />
+             </field> 
+			 <field name="pubTime" >
+				<extract expression="$..content.pubTime" type="json" />
+             </field> 
+			 <field name="praiseTimes" >
+				<extract expression="$..content.praiseTimes" type="json" />
+             </field> 
+			 <field name="img" >
+				<extract expression="$..content.pic" type="json" />
+             </field> 
+			 <field name="url" >
+				<extract expression="$..content.shareUrl" type="json" />
+             </field> 
+			 <field name="tags" type="list" >
+				<extract expression="$..content.tags[*].name" type="json" multi="true" />
+             </field> 
+			 <field name="videoUrls" >
+				<extract expression="$..content.videos[*].url" type="json" />
+             </field> 
+         </bean>
+		 <tagurl>
+             <expression>http://app.pearvideo.com/clt/jsp/v4/content.jsp\?contId=*</expression>
+         </tagurl>
+     </model>
+ </models>
+ <!-- 任务定时器 -->
+ <!--<task>05 19 * * *</task>-->
+</spider>
