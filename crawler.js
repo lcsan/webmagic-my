@@ -1,5 +1,8 @@
 var crawler = function (ele) {
-	this.ele = ele || [document.body];	
+	this.ele = ele || [document.body];
+	if(this.ele.constructor != Array && this.ele.constructor != NodeList){
+		this.ele = [ele];
+	}
 	if(this.ele.constructor == Array){
 		this.ele = this.ele.filter(function (item) {
 			return item;
