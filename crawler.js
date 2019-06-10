@@ -1,6 +1,10 @@
 var crawler = function (ele) {
-	this.ele = ele || [document.body];
-	this.ele = this.ele.filter(function (item) { return item; });
+	this.ele = ele || [document.body];	
+	if(this.ele.constructor == Array){
+		this.ele = this.ele.filter(function (item) {
+			return item;
+		});
+	}
 }
 crawler.prototype.$j = function (query, param) {
 	var res = [];
