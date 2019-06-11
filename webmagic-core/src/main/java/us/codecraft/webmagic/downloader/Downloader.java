@@ -28,4 +28,6 @@ public interface Downloader {
      * @param threadNum number of threads
      */
     public void setThread(int threadNum);
+    
+    public void shutdown();
 }
