@@ -946,4 +946,8 @@ public class MockGithubDownloader implements Downloader{
     @Override
     public void setThread(int threadNum) {
     }
+    
+    @Override
+    public void shutdown() {        
+    }
 }
