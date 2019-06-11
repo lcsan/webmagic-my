@@ -137,4 +137,9 @@ public class HttpClientDownloader extends AbstractDownloader {
         }
         return charset;
     }
+    
+    @Override
+    public void shutdown() {
+        
+    }
 }
