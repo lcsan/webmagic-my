@@ -401,6 +401,7 @@ public class Spider implements Runnable, Task {
     }
 
     public void close() {
+        downloader.shutdown();
         destroyEach(downloader);
         destroyEach(pageProcessor);
         destroyEach(scheduler);
