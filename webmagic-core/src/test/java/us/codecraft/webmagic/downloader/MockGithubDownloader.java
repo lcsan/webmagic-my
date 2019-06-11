@@ -1,13 +1,14 @@
 package us.codecraft.webmagic.downloader;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import org.apache.commons.io.IOUtils;
+
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.selector.PlainText;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * @author code4crafter@gmail.com
@@ -30,5 +31,10 @@ public class MockGithubDownloader implements Downloader {
 
     @Override
     public void setThread(int threadNum) {
+    }
+
+    @Override
+    public void shutdown() {
+
     }
 }
