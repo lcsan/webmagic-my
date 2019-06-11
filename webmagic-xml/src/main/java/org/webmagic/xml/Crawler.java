@@ -52,6 +52,8 @@ public class Crawler {
                 strVar += "     <useRedis>false</useRedis>\r\n";
                 strVar += "     <!-- 是否使用数据库 -->\r\n";
                 strVar += "     <useDb>false</useDb>\r\n";
+                strVar += "     <!-- 是否使用Phantomjs浏览器渲染网页 -->\r\n";
+                strVar += "     <usePhantomjs>false</usePhantomjs>\r\n";
                 strVar += "     <!-- 起始爬取地址,多个值\",\"分隔-->\r\n";
                 strVar += "     <url>\r\n";
                 strVar += "            <![CDATA[\r\n";
