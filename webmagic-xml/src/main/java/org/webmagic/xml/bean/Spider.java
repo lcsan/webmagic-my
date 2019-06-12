@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.alibaba.fastjson.JSON;
 
+import us.codecraft.webmagic.downloader.selenium.PhantomjsDownloader;
 import us.codecraft.webmagic.model.OOSpider;
 import us.codecraft.webmagic.model.xml.bean.Models;
 import us.codecraft.webmagic.scheduler.PriorityScheduler;
@@ -88,6 +89,9 @@ public class Spider {
                 }
             } else if (site.isUsePriority()) {
                 spider.setScheduler(new PriorityScheduler());
+            }
+            if (site.isUsePhantomjs()) {
+                spider.setDownloader(new PhantomjsDownloader());
             }
 
         }
