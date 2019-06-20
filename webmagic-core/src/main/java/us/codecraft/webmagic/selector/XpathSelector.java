@@ -1,11 +1,12 @@
 package us.codecraft.webmagic.selector;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.jsoup.nodes.Element;
-import us.codecraft.xsoup.XPathEvaluator;
-import us.codecraft.xsoup.Xsoup;
-
+import java.util.ArrayList;
 import java.util.List;
+
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.seimicrawler.xpath.JXDocument;
+import org.seimicrawler.xpath.JXNode;
 
 /**
  * XPath selector based on Xsoup.<br>
@@ -15,38 +16,45 @@ import java.util.List;
  */
 public class XpathSelector extends BaseElementSelector {
 
-    private XPathEvaluator xPathEvaluator;
+    private String xpathStr;
 
     public XpathSelector(String xpathStr) {
-        this.xPathEvaluator = Xsoup.compile(xpathStr);
+        this.xpathStr = xpathStr;
     }
 
     @Override
     public String select(Element element) {
-        return xPathEvaluator.evaluate(element).get();
+        return JXDocument.create((Document) element).selOne(xpathStr).toString();
     }
 
     @Override
     public List<String> selectList(Element element) {
-        return xPathEvaluator.evaluate(element).list();
+        List<Object> list = JXDocument.create((Document) element).sel(xpathStr);
+        List<String> re = new ArrayList<String>();
+        for (Object obj : list) {
+            re.add(obj.toString());
+        }
+        return re;
     }
 
     @Override
     public Element selectElement(Element element) {
-        List<Element> elements = selectElements(element);
-        if (CollectionUtils.isNotEmpty(elements)){
-            return elements.get(0);
-        }
-        return null;
+        return JXDocument.create((Document) element).selNOne(xpathStr).asElement();
     }
 
     @Override
     public List<Element> selectElements(Element element) {
-        return xPathEvaluator.evaluate(element).getElements();
+        List<JXNode> list = JXDocument.create((Document) element).selN(xpathStr);
+        List<Element> re = new ArrayList<Element>();
+        for (JXNode node : list) {
+            re.add(node.asElement());
+        }
+        return re;
     }
 
     @Override
     public boolean hasAttribute() {
-        return xPathEvaluator.hasAttribute();
+        return false;
     }
+
 }
