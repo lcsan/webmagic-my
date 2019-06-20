@@ -29,7 +29,7 @@ public class Json extends PlainText {
 	 *            padding
 	 * @return json after padding removed
 	 */
-	public Json removePadding(String padding) {
+	/*public Json removePadding(String padding) {
 		String text = getFirstSourceText();
 		XTokenQueue tokenQueue = new XTokenQueue(text);
 		tokenQueue.consumeWhitespace();
@@ -37,7 +37,7 @@ public class Json extends PlainText {
 		tokenQueue.consumeWhitespace();
 		String chompBalanced = tokenQueue.chompBalancedNotInQuotes('(', ')');
 		return new Json(chompBalanced);
-	}
+	}*/
 
 	public <T> T toObject(Class<T> clazz) {
 		if (getFirstSourceText() == null) {
