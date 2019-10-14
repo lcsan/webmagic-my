@@ -1,13 +1,14 @@
 var crawler = function (ele) {
     this.ele = ele || [document.body];
-    if (this.ele.constructor != Array && this.ele.constructor != NodeList) {
-        this.ele = [ele];
-    }
+
     if (this.ele.constructor == Array) {
+
         this.ele = this.ele.filter(function (item) {
             return item;
         });
+
     }
+
 }
 crawler.prototype.$j = function (query, param) {
     var res = [];
@@ -101,6 +102,40 @@ crawler.prototype.get = function () {
     var res = [];
     for (var i = 0, j = this.ele.length; i < j; i++) {
         res.push(this.str(this.ele[i]));
+    }
+    if (res.length == 1) {
+        return res[0];
+    }
+    return res;
+}
+crawler.prototype.getXpath = function (flag) {
+    var res = [];
+    for (var i = 0, j = this.ele.length; i < j; i++) {
+        var data = this.ele[i];
+        if (data.nodeType && data.nodeType === Node.ELEMENT_NODE) {
+            if (flag) {
+                res.push(this.getFullSelector(data, true));
+            } else {
+                res.push(this.getSelector(data, true));
+            }
+        }
+    }
+    if (res.length == 1) {
+        return res[0];
+    }
+    return res;
+}
+crawler.prototype.getCss = function (flag) {
+    var res = [];
+    for (var i = 0, j = this.ele.length; i < j; i++) {
+        var data = this.ele[i];
+        if (data.nodeType && data.nodeType === Node.ELEMENT_NODE) {
+            if (flag) {
+                res.push(this.getFullSelector(data));
+            } else {
+                res.push(this.getSelector(data));
+            }
+        }
     }
     if (res.length == 1) {
         return res[0];
@@ -251,6 +286,7 @@ crawler.prototype.xpath = function (ele, query) {
     }
     return [str];
 };
+
 crawler.prototype.css = function (ele, query, param) {
     var res = [];
     if (param) {
@@ -267,52 +303,53 @@ crawler.prototype.css = function (ele, query, param) {
     }
     return res;
 }
-crawler.prototype.getSelector = function (elm,xp) {
-	var fex = xp ? "[@" : "[";
+
+crawler.prototype.getSelector = function (elm, xp) {
+    var fex = xp ? "[@" : "[";
     for (var segs = []; elm && elm.nodeType == 1; elm = elm.parentNode) {
-		var attrs = elm.attributes;
-		var flag = true;
-		for (var i = 0,j = attrs.length; i<j; i++) {
-			var exp = attrs[i].localName.toLowerCase() + "=\"" + attrs[i].value + "\"]";
-			var uniqueIdCount = document.querySelectorAll(elm.localName.toLowerCase() + "[" + exp).length;
-			if (uniqueIdCount == 1) {
-				segs.unshift(elm.localName.toLowerCase() + fex + exp);
-				flag = false;
+        var attrs = elm.attributes;
+        var flag = true;
+        for (var i = 0, j = attrs.length; i < j; i++) {
+            var exp = attrs[i].localName.toLowerCase() + "=\"" + attrs[i].value + "\"]";
+            var uniqueIdCount = document.querySelectorAll(elm.localName.toLowerCase() + "[" + exp).length;
+            if (uniqueIdCount == 1) {
+                segs.unshift(elm.localName.toLowerCase() + fex + exp);
+                flag = false;
                 break;
             }
-		}		
-		if(flag){
+        }
+        if (flag) {
             for (i = 1, sib = elm.previousSibling; sib; sib = sib.previousSibling) {
                 if (sib.localName == elm.localName) i++;
             };
-			if(xp){
-				segs.unshift(elm.localName.toLowerCase() + (i > 1?'[' + i + ']':''));
-			}else{
-				segs.unshift(elm.localName.toLowerCase() + (i > 1?':nth-of-type(' + i + ')':''));
-			}            
-        }else{
-			break;
-		};
-		if(elm.localName.toLowerCase()=="body"){
-			break;
-		}
+            if (xp) {
+                segs.unshift(elm.localName.toLowerCase() + (i > 1 ? '[' + i + ']' : ''));
+            } else {
+                segs.unshift(elm.localName.toLowerCase() + (i > 1 ? ':nth-of-type(' + i + ')' : ''));
+            }
+        } else {
+            break;
+        };
+        if (elm.localName.toLowerCase() == "body") {
+            break;
+        }
     };
-	return segs.length ? (xp ? '//' + segs.join('/') : segs.join('>')) : null;	 
+    return segs.length ? (xp ? '//' + segs.join('/') : segs.join('>')) : null;
 };
 
-crawler.prototype.getFullSelector = function (elm,xp) {
-    for (var segs = []; elm && elm.nodeType == 1; elm = elm.parentNode) {		
-		for (i = 1, sib = elm.previousSibling; sib; sib = sib.previousSibling) {
-			if (sib.localName == elm.localName) i++;
-		};
-		if(xp){
-			segs.unshift(elm.localName.toLowerCase() + (i > 1?'[' + i + ']':''));
-		}else{
-			segs.unshift(elm.localName.toLowerCase() + (i > 1?':nth-of-type(' + i + ')':''));
-		}
-		if(elm.localName.toLowerCase()=="body"){
-			break;
-		}
+crawler.prototype.getFullSelector = function (elm, xp) {
+    for (var segs = []; elm && elm.nodeType == 1; elm = elm.parentNode) {
+        for (i = 1, sib = elm.previousSibling; sib; sib = sib.previousSibling) {
+            if (sib.localName == elm.localName) i++;
+        };
+        if (xp) {
+            segs.unshift(elm.localName.toLowerCase() + (i > 1 ? '[' + i + ']' : ''));
+        } else {
+            segs.unshift(elm.localName.toLowerCase() + (i > 1 ? ':nth-of-type(' + i + ')' : ''));
+        }
+        if (elm.localName.toLowerCase() == "body") {
+            break;
+        }
     };
-	return segs.length ? (xp ? '//' + segs.join('/') : segs.join('>')) : null;	 
+    return segs.length ? (xp ? '//' + segs.join('/') : segs.join('>')) : null;
 };
