@@ -112,6 +112,8 @@ crawler.prototype.toString = function () {
 crawler.prototype.str = function (data) {
     if (data.nodeType && data.nodeType === Node.ELEMENT_NODE) {
         return data.outerHTML;
+    } else if (data.nodeType && data.nodeType === Node.DOCUMENT_NODE) {
+        return data.body.parentNode.outerHTML;
     } else {
         return data;
     }
