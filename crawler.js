@@ -1,32 +1,25 @@
 var crawler = function (ele) {
-    this.ele = ele || [document.body];
+    this.ele = ele || [document];
 
     if (this.ele.constructor == Array) {
-
         this.ele = this.ele.filter(function (item) {
             return item;
         });
-
     }
 
 }
+
 crawler.prototype.$j = function (query, param) {
     var res = [];
     return new crawler(this.jsonPath(this.ele, query, param));
 }
+
+
 crawler.prototype.$x = function (query) {
-    var res = [];
-    for (var i = 0, j = this.ele.length; i < j; i++) {
-        res = res.concat(this.xpath(this.ele[i], query))
-    }
-    return new crawler(res);
+    return this.exeQuery("xpath", query);
 }
 crawler.prototype.$ = function (query, param) {
-    var res = [];
-    for (var i = 0, j = this.ele.length; i < j; i++) {
-        res = res.concat(this.css(this.ele[i], query, param))
-    }
-    return new crawler(res);
+    return this.exeQuery("css", query, param);
 }
 crawler.prototype.filter = function (query) {
     var res = [];
@@ -98,6 +91,9 @@ crawler.prototype.split = function (query) {
     }
     return new crawler(res);
 }
+crawler.prototype.mix = function (expression) {
+    return eval('this.' + expression)
+}
 crawler.prototype.get = function () {
     var res = [];
     for (var i = 0, j = this.ele.length; i < j; i++) {
@@ -107,6 +103,47 @@ crawler.prototype.get = function () {
         return res[0];
     }
     return res;
+}
+crawler.prototype.toString = function () {
+    return this.get();
+}
+
+
+crawler.prototype.str = function (data) {
+    if (data.nodeType && data.nodeType === Node.ELEMENT_NODE) {
+        return data.outerHTML;
+    } else {
+        return data;
+    }
+}
+crawler.prototype.exeQuery = function (flag, query, param) {
+    if (/iframe/img.test(query)) {
+        var temp = query.match(/.*?iframe(\[.*?\]|[#.:,].*?[\s>+~])?/img);
+        for (tmp in temp) {
+            var item = temp[tmp];
+            item = item.replace(/[\s>+~]*$/img, "").replace(/^[\s>+~]*/img, "");
+            this.ele = this.manyQuery(flag, item, param).ele;
+        }
+        query = query.replace(/.*?iframe(\[.*?\]|[#.:,].*?[\s>+~])?/img, "").replace(/[\s>+~]*$/img, "").replace(
+            /^[\s>+~]*/img, "");
+        if (!query) {
+            return this;
+        }
+        return this.manyQuery(flag, query, param);
+    } else {
+        return this.manyQuery(flag, query, param);
+    }
+}
+crawler.prototype.manyQuery = function (flag, query, param) {
+    var res = [];
+    for (var i = 0, j = this.ele.length; i < j; i++) {
+        if (flag == "css") {
+            res = res.concat(this.css(this.ele[i], query, param));
+        } else if (flag == "xpath") {
+            res = res.concat(this.xpath(this.ele[i], query))
+        }
+    }
+    return new crawler(res);
 }
 crawler.prototype.getXpath = function (flag) {
     var res = [];
@@ -244,22 +281,17 @@ crawler.prototype.jsonPath = function (obj, expr, arg) {
         return P.result;
     }
 }
-
-crawler.prototype.str = function (data) {
-    if (data.nodeType && data.nodeType === Node.ELEMENT_NODE) {
-        return data.outerHTML;
-    } else {
-        return data;
-    }
-}
-
 crawler.prototype.xpath = function (ele, query) {
+    if (!query) {
+        return [];
+    }
     var xpathResult = null;
     var str = null;
     var toHighlight = [];
-
+    ele = ele.contentDocument || ele;
+    var dom = ele.contentDocument || ele.ownerDocument || document;
     try {
-        xpathResult = document.evaluate(query, ele, null, XPathResult.ANY_TYPE, null);
+        xpathResult = dom.evaluate("." + query, ele, null, XPathResult.ANY_TYPE, null);
     } catch (e) {
         str = null;
     }
@@ -286,9 +318,12 @@ crawler.prototype.xpath = function (ele, query) {
     }
     return [str];
 };
-
 crawler.prototype.css = function (ele, query, param) {
+    if (!query) {
+        return [];
+    }
     var res = [];
+    ele = ele.contentDocument || ele;
     if (param) {
         ele.querySelectorAll(query).forEach(function (item) {
             var data = eval("item." + param + " || item.getAttribute('" + param + "')");
@@ -304,6 +339,7 @@ crawler.prototype.css = function (ele, query, param) {
     return res;
 }
 
+
 crawler.prototype.getSelector = function (elm, xp) {
     var fex = xp ? "[@" : "[";
     for (var segs = []; elm && elm.nodeType == 1; elm = elm.parentNode) {
@@ -311,7 +347,7 @@ crawler.prototype.getSelector = function (elm, xp) {
         var flag = true;
         for (var i = 0, j = attrs.length; i < j; i++) {
             var exp = attrs[i].localName.toLowerCase() + "=\"" + attrs[i].value + "\"]";
-            var uniqueIdCount = document.querySelectorAll(elm.localName.toLowerCase() + "[" + exp).length;
+            var uniqueIdCount = elm.ownerDocument.querySelectorAll(elm.localName.toLowerCase() + "[" + exp).length;
             if (uniqueIdCount == 1) {
                 segs.unshift(elm.localName.toLowerCase() + fex + exp);
                 flag = false;
@@ -335,8 +371,7 @@ crawler.prototype.getSelector = function (elm, xp) {
         }
     };
     return segs.length ? (xp ? '//' + segs.join('/') : segs.join('>')) : null;
-};
-
+}
 crawler.prototype.getFullSelector = function (elm, xp) {
     for (var segs = []; elm && elm.nodeType == 1; elm = elm.parentNode) {
         for (i = 1, sib = elm.previousSibling; sib; sib = sib.previousSibling) {
@@ -352,4 +387,4 @@ crawler.prototype.getFullSelector = function (elm, xp) {
         }
     };
     return segs.length ? (xp ? '//' + segs.join('/') : segs.join('>')) : null;
-};
+}
