@@ -92,7 +92,19 @@ crawler.prototype.split = function (query) {
     return new crawler(res);
 }
 crawler.prototype.mix = function (expression) {
-    return eval('this.' + expression)
+    return eval('this.' + expression);
+}
+crawler.prototype.set = function (attr, value) {
+    for (var i = 0, j = this.ele.length; i < j; i++) {
+        var data = this.ele[i];
+        if (data.nodeType) {
+            try {
+                eval("data." + attr + '="' + value + '" || data.' + attr + '=' + value + ';');
+            } catch (err) {
+                eval('data.setAttribute("' + attr + '","' + value + '");');
+            }
+        }
+    }
 }
 crawler.prototype.get = function () {
     var res = [];
