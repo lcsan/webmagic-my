@@ -131,7 +131,7 @@ crawler.prototype.str = function (data) {
     }
 }
 crawler.prototype.exeQuery = function (flag, query, param) {
-    if (/iframe/img.test(query)) {
+    if (/[\/\s>+~]iframe/img.test(query)) {
         var temp = query.match(/.*?iframe(\[.*?\]|[#.:,].*?[\s>+~])?/img);
         for (tmp in temp) {
             var item = temp[tmp];
