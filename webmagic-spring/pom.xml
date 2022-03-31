@@ -14,7 +14,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.test.skip>true</maven.test.skip>
-		<spring-version>4.3.5.RELEASE</spring-version>
+		<spring-version>5.3.18</spring-version>
 	</properties>
 
 	<dependencies>
